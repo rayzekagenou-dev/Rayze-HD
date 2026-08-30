@@ -7,69 +7,72 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body {
-            background: #0a0d14;
-            color: #e8edf5;
-            padding: 12px;
-            min-height: 100vh;
-            padding-bottom: 100px;
-            /* BACKGROUND KAYAK FOTO - GRID + PATTERN */
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(250, 204, 21, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(250, 204, 21, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 50% 80%, rgba(250, 204, 21, 0.04) 0%, transparent 50%),
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
-            background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
-        }
+        body { background: #0a0d14; color: #e8edf5; padding: 12px; min-height: 100vh; padding-bottom: 100px; }
 
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: #141a24;
+            border-radius: 30px;
+            border: 1px solid #2a3346;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .navbar a {
+            color: #8899bb;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .navbar a i { font-size: 0.9rem; }
+        .navbar a.active {
+            color: #facc15;
+            background: #1f2937;
+        }
+        .navbar a:active { transform: scale(0.94); }
+
+        /* ===== HEADER ===== */
         .header {
-            background: rgba(20, 26, 36, 0.8);
-            backdrop-filter: blur(10px);
+            background: #141a24;
             padding: 14px 20px;
             border-radius: 30px;
-            border: 1px solid rgba(42, 51, 70, 0.5);
+            border: 1px solid #2a3346;
             margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 8px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
-        .header h1 {
-            font-size: 1.3rem;
-            color: #facc15;
-            text-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
-        }
+        .header h1 { font-size: 1.3rem; color: #facc15; }
         .header h1 i { margin-right: 8px; }
-        .badge {
-            background: rgba(31, 41, 55, 0.7);
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.55rem;
-            border: 1px solid rgba(75, 85, 99, 0.4);
-            color: #94a3b8;
-        }
+        .badge { background: #1f2937; padding: 4px 12px; border-radius: 30px; font-size: 0.55rem; border: 1px solid #4b5563; color: #94a3b8; }
 
+        /* ===== PREVIEW ===== */
         .preview-wrapper {
             position: sticky;
             top: 10px;
             z-index: 50;
-            background: rgba(10, 13, 20, 0.85);
-            backdrop-filter: blur(8px);
+            background: #0a0d14;
             padding: 4px 0;
-            border-radius: 20px;
         }
         .preview-box {
-            background: rgba(15, 20, 30, 0.7);
-            backdrop-filter: blur(5px);
+            background: #0f141e;
             border-radius: 20px;
             padding: 16px;
-            border: 1px solid rgba(31, 42, 58, 0.5);
+            border: 1px solid #1f2a3a;
             margin: 12px 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.8);
         }
         .preview-box canvas {
             width: 100%;
@@ -79,7 +82,6 @@
             max-height: 350px;
             object-fit: contain;
             display: block;
-            border: 1px solid rgba(250, 204, 21, 0.1);
         }
         .preview-box video {
             width: 100%;
@@ -100,184 +102,79 @@
         }
         .preview-info i { color: #facc15; margin-right: 4px; }
 
-        .toolbar {
+        /* ===== TOOLS 1-5 ===== */
+        .tools-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
             margin: 12px 0;
         }
-        .btn {
-            padding: 12px;
-            border-radius: 30px;
-            border: 1px solid rgba(45, 56, 75, 0.5);
-            background: rgba(26, 35, 50, 0.7);
-            backdrop-filter: blur(5px);
-            color: #e8edf5;
-            font-weight: 600;
-            font-size: 0.7rem;
-            cursor: pointer;
+        .tool-btn {
+            background: #141a24;
+            border: 1px solid #2a3346;
+            border-radius: 16px;
+            padding: 14px 6px;
             text-align: center;
-            transition: all 0.2s;
+            cursor: pointer;
+            transition: 0.15s;
+            color: #e8edf5;
             text-decoration: none;
-            display: block;
+            font-size: 0.6rem;
+            font-weight: 600;
         }
-        .btn:active { transform: scale(0.94); background: rgba(37, 48, 64, 0.8); }
-        .btn i { margin-right: 6px; }
-        .btn.primary { background: rgba(30, 45, 74, 0.7); border-color: rgba(74, 106, 255, 0.4); }
-        .btn.primary i { color: #4a6aff; }
-        .btn.success { background: rgba(6, 95, 70, 0.7); border-color: rgba(16, 185, 129, 0.4); }
-        .btn.success i { color: #10b981; }
-        .btn.full { grid-column: 1 / -1; }
-        .btn.danger { background: rgba(127, 29, 29, 0.7); border-color: rgba(239, 68, 68, 0.4); }
-        .btn.danger i { color: #ef4444; }
-        .btn.whatsapp { background: rgba(7, 94, 84, 0.7); border-color: rgba(37, 211, 102, 0.4); }
+        .tool-btn:active { transform: scale(0.94); background: #1e2a3a; }
+        .tool-btn i { font-size: 1.5rem; display: block; margin-bottom: 4px; color: #8b9dff; }
+        .tool-btn .label { font-size: 0.55rem; color: #8899bb; }
+
+        /* ===== SLIDER ===== */
+        .slider-group { margin: 8px 0; padding: 12px; background: #111824; border-radius: 16px; border: 1px solid #1f2a3a; }
+        .slider-group label { font-size: 0.7rem; color: #b7cbff; display: flex; justify-content: space-between; }
+        .slider-group input[type="range"] { width: 100%; accent-color: #facc15; }
+
+        /* ===== FILTER ===== */
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+        .btn-filter { background: #141a24; border: 1px solid #2a3346; padding: 6px 14px; border-radius: 20px; font-size: 0.55rem; color: #b7cbff; cursor: pointer; }
+        .btn-filter:active { background: #1e2a3a; }
+
+        /* ===== HISTORI ===== */
+        .history-box { background: #0f141e; border-radius: 16px; padding: 12px; border: 1px solid #1f2a3a; margin: 12px 0; max-height: 150px; overflow-y: auto; }
+        .history-item { padding: 6px 12px; border-bottom: 1px solid #1a2332; font-size: 0.65rem; color: #b7cbff; display: flex; justify-content: space-between; }
+        .history-item i { color: #4ade80; margin-right: 8px; }
+
+        /* ===== SOSIAL ===== */
+        .social-links { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0; }
+        .social-links .btn { padding: 10px; border-radius: 16px; font-size: 0.6rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; flex-direction: column; border: 1px solid #2a3346; background: #141a24; color: #e8edf5; cursor: pointer; text-decoration: none; }
+        .social-links .btn i { font-size: 1.2rem; margin-right: 0; }
+        .social-links .btn:active { transform: scale(0.94); }
         .btn.whatsapp i { color: #25d366; }
-        .btn.channel { background: rgba(26, 42, 58, 0.7); border-color: rgba(37, 211, 102, 0.3); }
         .btn.channel i { color: #25d366; }
-        .btn.source { background: rgba(13, 17, 23, 0.7); border-color: rgba(240, 244, 255, 0.2); }
         .btn.source i { color: #f0f4ff; }
 
         input[type="file"] { display: none; }
 
-        .slider-group {
-            margin: 8px 0;
-            padding: 12px;
-            background: rgba(17, 24, 36, 0.6);
-            backdrop-filter: blur(5px);
-            border-radius: 16px;
-            border: 1px solid rgba(31, 42, 58, 0.4);
-        }
-        .slider-group label { font-size: 0.7rem; color: #b7cbff; display: flex; justify-content: space-between; }
-        .slider-group input[type="range"] { width: 100%; accent-color: #facc15; }
-
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: 10px 0;
-        }
-        .btn-filter {
-            background: rgba(20, 26, 36, 0.6);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(42, 51, 70, 0.4);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.55rem;
-            color: #b7cbff;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .btn-filter:active { background: rgba(30, 42, 58, 0.8); transform: scale(0.94); }
-
-        .chat-box {
-            background: rgba(15, 20, 30, 0.6);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-            border: 1px solid rgba(31, 42, 58, 0.4);
-            margin: 16px 0;
-            overflow: hidden;
-        }
-        .chat-header {
-            background: rgba(20, 26, 36, 0.6);
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(31, 42, 58, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .chat-header i { color: #10b981; font-size: 1.2rem; }
-        .chat-header h3 { font-size: 0.9rem; color: #e8edf5; }
-        .chat-messages {
-            padding: 12px 16px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .chat-msg {
-            margin-bottom: 8px;
-            padding: 8px 12px;
-            border-radius: 12px;
-            max-width: 85%;
-            font-size: 0.75rem;
-        }
-        .chat-msg.user {
-            background: rgba(30, 45, 74, 0.7);
-            margin-left: auto;
-            color: #e8edf5;
-        }
-        .chat-msg.bot {
-            background: rgba(20, 26, 36, 0.6);
-            border: 1px solid rgba(42, 51, 70, 0.3);
-            color: #b7cbff;
-        }
-        .chat-input {
-            display: flex;
-            gap: 8px;
-            padding: 12px 16px;
-            border-top: 1px solid rgba(31, 42, 58, 0.4);
-        }
-        .chat-input input {
-            flex: 1;
-            padding: 10px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(42, 51, 70, 0.4);
-            background: rgba(20, 26, 36, 0.6);
-            color: #e8edf5;
-            font-size: 0.75rem;
-            outline: none;
-        }
-        .chat-input input::placeholder { color: #4a5a72; }
-        .chat-input button {
-            padding: 10px 20px;
-            border-radius: 30px;
-            border: none;
-            background: rgba(30, 45, 74, 0.7);
-            color: #facc15;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.7rem;
-        }
-        .chat-input button:active { transform: scale(0.94); }
-
-        .social-links {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin: 12px 0;
-        }
-        .social-links .btn {
-            padding: 10px;
-            border-radius: 16px;
-            font-size: 0.6rem;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            flex-direction: column;
-        }
-        .social-links .btn i { font-size: 1.2rem; margin-right: 0; }
-
-        .footer {
-            text-align: center;
-            font-size: 0.55rem;
-            color: #4a5a72;
-            padding-top: 16px;
-            border-top: 1px solid rgba(26, 35, 50, 0.4);
-            margin-top: 20px;
-        }
+        .footer { text-align: center; font-size: 0.55rem; color: #4a5a72; padding-top: 16px; border-top: 1px solid #1a2332; margin-top: 20px; }
         .footer a { color: #facc15; text-decoration: none; }
 
         @media (max-width: 480px) {
-            .toolbar { grid-template-columns: 1fr 1fr; }
+            .tools-grid { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+            .tool-btn { padding: 10px 4px; font-size: 0.5rem; }
+            .tool-btn i { font-size: 1.2rem; }
+            .navbar a { font-size: 0.55rem; padding: 4px 8px; }
+            .navbar a i { font-size: 0.7rem; }
             .social-links { grid-template-columns: 1fr 1fr 1fr; }
-            .social-links .btn { font-size: 0.5rem; padding: 8px; }
-            .social-links .btn i { font-size: 1rem; }
-            .header h1 { font-size: 1rem; }
-            .btn { font-size: 0.6rem; padding: 10px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ===== NAVBAR ===== -->
+    <div class="navbar">
+        <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-film"></i> Anime</a>
+        <a href="#"><i class="fas fa-calendar"></i> Jadwal</a>
+        <a href="#"><i class="fas fa-comment"></i> Chat</a>
+        <a href="#"><i class="fas fa-user"></i> Profil</a>
+    </div>
 
     <!-- ===== HEADER ===== -->
     <div class="header">
@@ -285,7 +182,7 @@
         <div class="badge"><i class="fas fa-star" style="color:#facc15;"></i> v2.0</div>
     </div>
 
-    <!-- ===== PREVIEW (STICKY) ===== -->
+    <!-- ===== PREVIEW ===== -->
     <div class="preview-wrapper">
         <div class="preview-box">
             <canvas id="canvas" width="800" height="400"></canvas>
@@ -297,13 +194,33 @@
         </div>
     </div>
 
-    <!-- ===== TOOLBAR UPLOAD & EKSPOR ===== -->
-    <div class="toolbar">
-        <div class="btn primary" onclick="document.getElementById('fileInputImage').click();"><i class="fas fa-image"></i> Upload Foto</div>
-        <div class="btn primary" onclick="document.getElementById('fileInputVideo').click();"><i class="fas fa-video"></i> Upload Video</div>
-        <div class="btn success" onclick="downloadImage()"><i class="fas fa-download"></i> Ekspor Foto</div>
-        <div class="btn success" onclick="exportVideo()"><i class="fas fa-file-video"></i> Ekspor Video</div>
-        <div class="btn danger full" onclick="resetImage()"><i class="fas fa-undo"></i> Reset</div>
+    <!-- ===== TOOLS 1-5 ===== -->
+    <div class="tools-grid">
+        <div class="tool-btn" onclick="document.getElementById('fileInputImage').click();">
+            <i class="fas fa-image"></i>
+            <span>Tools 1</span>
+            <span class="label">Upload Foto</span>
+        </div>
+        <div class="tool-btn" onclick="document.getElementById('fileInputVideo').click();">
+            <i class="fas fa-video"></i>
+            <span>Tools 2</span>
+            <span class="label">Upload Video</span>
+        </div>
+        <div class="tool-btn" onclick="downloadImage()">
+            <i class="fas fa-download"></i>
+            <span>Tools 3</span>
+            <span class="label">Ekspor Foto</span>
+        </div>
+        <div class="tool-btn" onclick="exportVideo()">
+            <i class="fas fa-file-video"></i>
+            <span>Tools 4</span>
+            <span class="label">Ekspor Video</span>
+        </div>
+        <div class="tool-btn" onclick="resetImage()">
+            <i class="fas fa-undo"></i>
+            <span>Tools 5</span>
+            <span class="label">Reset</span>
+        </div>
         <input type="file" id="fileInputImage" accept="image/*" onchange="handleUploadImage(event)">
         <input type="file" id="fileInputVideo" accept="video/*" onchange="handleUploadVideo(event)">
     </div>
@@ -338,7 +255,7 @@
         <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateSlider()">
     </div>
 
-    <!-- ===== FILTER BUTTONS ===== -->
+    <!-- ===== FILTER ===== -->
     <div class="filter-buttons">
         <div class="btn-filter" onclick="applyFilter('original')">Original</div>
         <div class="btn-filter" onclick="applyFilter('grayscale')">Grayscale</div>
@@ -352,24 +269,17 @@
         <div class="btn-filter" onclick="applyFilter('posterize')">Posterize</div>
     </div>
 
-    <!-- ===== CHAT GPT ===== -->
-    <div class="chat-box">
-        <div class="chat-header">
-            <i class="fas fa-robot"></i>
-            <h3>Chat Rayze AI</h3>
-            <span style="font-size:0.55rem;color:#4a5a72;margin-left:auto;">online</span>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <div class="chat-msg bot"><i class="fas fa-robot" style="margin-right:6px;color:#10b981;"></i> Halo! Saya Rayze AI. Ada yang bisa saya bantu?</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Tanya apa aja..." onkeypress="if(event.key==='Enter') sendChat()">
-            <button onclick="sendChat()"><i class="fas fa-paper-plane"></i> Kirim</button>
+    <!-- ===== HISTORI ===== -->
+    <div style="margin:12px 0;">
+        <h3 style="color:#facc15;font-size:0.85rem;margin-bottom:8px;"><i class="fas fa-history"></i> Histori Edit</h3>
+        <div class="history-box" id="historyList">
+            <div class="history-item"><span><i class="fas fa-check-circle"></i> Original</span><span>Now</span></div>
         </div>
     </div>
 
+    <!-- ===== FOOTER ===== -->
     <div class="footer">
-        <i class="fas fa-code"></i> Rayze - HD Pro | <a href="#" target="_blank">v2.0</a>
+        <i class="fas fa-code"></i> Rayze - HD Pro | <a href="#">v2.0</a>
     </div>
 
     <script>
@@ -381,6 +291,7 @@
         let originalImageData = null;
         let isVideoMode = false;
         let videoUrl = null;
+        let history = [];
 
         // ===== LOAD DEFAULT =====
         function loadDefault() {
@@ -394,6 +305,7 @@
                 imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 originalImageData = new Uint8ClampedArray(imageData.data);
                 document.getElementById('imgInfo').textContent = 'Default Image';
+                addHistory('Load Default');
             };
             img.onerror = function() {
                 ctx.fillStyle = '#1a2332';
@@ -405,6 +317,16 @@
             };
         }
         loadDefault();
+
+        // ===== HISTORI =====
+        function addHistory(action) {
+            const time = new Date().toLocaleTimeString();
+            history.push({ action, time });
+            const list = document.getElementById('historyList');
+            list.innerHTML = history.slice(-10).reverse().map(h => 
+                `<div class="history-item"><span><i class="fas fa-check-circle"></i> ${h.action}</span><span>${h.time}</span></div>`
+            ).join('');
+        }
 
         // ===== UPLOAD FOTO =====
         function handleUploadImage(e) {
@@ -423,6 +345,7 @@
                 isVideoMode = false;
                 document.getElementById('imgInfo').textContent = '📷 ' + file.name;
                 document.getElementById('filterInfo').textContent = 'Original';
+                addHistory('Upload Foto: ' + file.name);
             };
             img.src = url;
             e.target.value = '';
@@ -441,6 +364,7 @@
             document.getElementById('imgInfo').textContent = '🎬 ' + file.name;
             video.load();
             video.onloadeddata = function() { video.play().catch(() => {}); };
+            addHistory('Upload Video: ' + file.name);
             e.target.value = '';
         }
 
@@ -453,6 +377,7 @@
             link.href = canvas.toDataURL('image/png');
             link.click();
             document.getElementById('imgInfo').textContent = '✅ Foto diekspor!';
+            addHistory('Ekspor Foto');
         }
 
         // ===== EKSPOR VIDEO =====
@@ -464,6 +389,7 @@
             link.href = videoUrl;
             link.click();
             document.getElementById('imgInfo').textContent = '✅ Video diekspor!';
+            addHistory('Ekspor Video');
         }
 
         // ===== RESET =====
@@ -472,6 +398,7 @@
                 video.currentTime = 0;
                 video.pause();
                 document.getElementById('filterInfo').textContent = 'Reset Video';
+                addHistory('Reset Video');
                 return;
             }
             if (!originalImageData) return;
@@ -484,6 +411,7 @@
             document.getElementById('brightnessVal').textContent = '100%';
             document.getElementById('contrastVal').textContent = '100%';
             document.getElementById('saturationVal').textContent = '100%';
+            addHistory('Reset Image');
         }
 
         // ===== SLIDER =====
@@ -528,6 +456,7 @@
                         data[i] = data[i+1] = data[i+2] = g;
                     }
                     document.getElementById('filterInfo').textContent = 'Grayscale';
+                    addHistory('Apply Grayscale');
                     break;
                 case 'sepia':
                     for (let i = 0; i < data.length; i += 4) {
@@ -537,6 +466,7 @@
                         data[i+2] = Math.min(255, r*0.272 + g*0.534 + b*0.131);
                     }
                     document.getElementById('filterInfo').textContent = 'Sepia';
+                    addHistory('Apply Sepia');
                     break;
                 case 'invert':
                     for (let i = 0; i < data.length; i += 4) {
@@ -545,6 +475,7 @@
                         data[i+2] = 255 - data[i+2];
                     }
                     document.getElementById('filterInfo').textContent = 'Invert';
+                    addHistory('Apply Invert');
                     break;
                 case 'blur':
                     const radius = 3;
@@ -566,24 +497,28 @@
                         }
                     }
                     document.getElementById('filterInfo').textContent = 'Blur';
+                    addHistory('Apply Blur');
                     break;
                 case 'sharpen':
                     const sk = [0,-1,0,-1,5,-1,0,-1,0];
                     const res = applyKernel(data, w, h, sk);
                     data.set(res);
                     document.getElementById('filterInfo').textContent = 'Sharpen';
+                    addHistory('Apply Sharpen');
                     break;
                 case 'edge':
                     const ek = [-1,-1,-1,-1,8,-1,-1,-1,-1];
                     const res2 = applyKernel(data, w, h, ek);
                     data.set(res2);
                     document.getElementById('filterInfo').textContent = 'Edge';
+                    addHistory('Apply Edge');
                     break;
                 case 'emboss':
                     const emb = [-2,-1,0,-1,1,1,0,1,2];
                     const res3 = applyKernel(data, w, h, emb);
                     data.set(res3);
                     document.getElementById('filterInfo').textContent = 'Emboss';
+                    addHistory('Apply Emboss');
                     break;
                 case 'pixelate':
                     const ps = 8;
@@ -607,6 +542,7 @@
                         }
                     }
                     document.getElementById('filterInfo').textContent = 'Pixelate';
+                    addHistory('Apply Pixelate');
                     break;
                 case 'posterize':
                     const levels = 4;
@@ -616,6 +552,7 @@
                         data[i+2] = Math.floor(data[i+2]/256*levels)*(256/levels);
                     }
                     document.getElementById('filterInfo').textContent = 'Posterize';
+                    addHistory('Apply Posterize');
                     break;
                 default:
                     document.getElementById('filterInfo').textContent = 'Original';
@@ -648,46 +585,7 @@
             return result;
         }
 
-        // ===== CHAT GPT =====
-        function sendChat() {
-            const input = document.getElementById('chatInput');
-            const msg = input.value.trim();
-            if (!msg) return;
-
-            const container = document.getElementById('chatMessages');
-
-            const userDiv = document.createElement('div');
-            userDiv.className = 'chat-msg user';
-            userDiv.innerHTML = '<i class="fas fa-user" style="margin-right:6px;"></i> ' + msg;
-            container.appendChild(userDiv);
-
-            input.value = '';
-
-            setTimeout(() => {
-                const botDiv = document.createElement('div');
-                botDiv.className = 'chat-msg bot';
-                const replies = [
-                    'Wah, menarik! Bisa ceritain lebih lanjut?',
-                    'Baik, saya catat. Ada yang lain?',
-                    'Hmm, saya pikir itu ide bagus!',
-                    'Oke, saya akan bantu semampu saya.',
-                    'Menarik sekali! Terus gimana?',
-                    'Saya setuju dengan pendapat Anda.',
-                    'Ada yang bisa saya bantu lagi?',
-                    'Terima kasih sudah bertanya!',
-                    'Saya Rayze AI, siap membantu!',
-                    'Mantap! Ada pertanyaan lain?'
-                ];
-                const reply = replies[Math.floor(Math.random() * replies.length)];
-                botDiv.innerHTML = '<i class="fas fa-robot" style="margin-right:6px;color:#10b981;"></i> ' + reply;
-                container.appendChild(botDiv);
-                container.scrollTop = container.scrollHeight;
-            }, 500);
-
-            container.scrollTop = container.scrollHeight;
-        }
-
-        // ===== EXPOSE GLOBAL =====
+        // ===== EXPOSE =====
         window.handleUploadImage = handleUploadImage;
         window.handleUploadVideo = handleUploadVideo;
         window.downloadImage = downloadImage;
@@ -695,7 +593,7 @@
         window.resetImage = resetImage;
         window.applyFilter = applyFilter;
         window.updateSlider = updateSlider;
-        window.sendChat = sendChat;
+        window.addHistory = addHistory;
     </script>
 </body>
-    </html>
+            </html>
