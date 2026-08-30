@@ -14,14 +14,12 @@
             min-height: 100vh;
             padding-bottom: 100px;
             background-image:
-                radial-gradient(circle at 20% 50%, rgba(250, 204, 21, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(250, 204, 21, 0.07) 0%, transparent 40%),
-                radial-gradient(circle at 50% 80%, rgba(250, 204, 21, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 10% 90%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 70%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+                radial-gradient(circle at 20% 50%, rgba(250, 204, 21, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(250, 204, 21, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
 
         .header {
@@ -42,20 +40,55 @@
         .header h1 i { margin-right: 8px; }
         .badge { background: rgba(31, 41, 55, 0.7); padding: 4px 12px; border-radius: 30px; font-size: 0.55rem; border: 1px solid rgba(75, 85, 99, 0.4); color: #94a3b8; }
 
-        .preview-wrapper { position: sticky; top: 10px; z-index: 50; background: rgba(10, 13, 20, 0.85); backdrop-filter: blur(8px); padding: 4px 0; border-radius: 20px; }
-        .preview-box { background: rgba(15, 20, 30, 0.7); backdrop-filter: blur(5px); border-radius: 20px; padding: 16px; border: 1px solid rgba(31, 42, 58, 0.5); margin: 12px 0; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-        .preview-box canvas { width: 100%; height: auto; border-radius: 14px; background: #000; max-height: 350px; object-fit: contain; display: block; border: 1px solid rgba(250, 204, 21, 0.1); }
-        .preview-box video { width: 100%; max-height: 350px; border-radius: 14px; background: #000; display: none; object-fit: contain; }
+        .user-card {
+            background: rgba(20, 26, 36, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(42, 51, 70, 0.4);
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .user-card .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0a0d14;
+        }
+        .user-card .info h3 { font-size: 1rem; color: #f0f4ff; }
+        .user-card .info p { font-size: 0.65rem; color: #8899bb; }
+        .user-card .info .member { color: #facc15; font-weight: 600; }
+        .user-card .info .owner { color: #ff6b6b; font-weight: 700; }
+
+        .preview-box {
+            background: rgba(15, 20, 30, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 16px;
+            border: 1px solid rgba(31, 42, 58, 0.5);
+            margin: 12px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .preview-box canvas { width: 100%; height: auto; border-radius: 14px; background: #000; max-height: 350px; display: block; border: 1px solid rgba(250, 204, 21, 0.1); }
+        .preview-box video { width: 100%; max-height: 350px; border-radius: 14px; background: #000; display: none; }
         .preview-info { display: flex; justify-content: space-between; padding-top: 10px; font-size: 0.6rem; color: #8899bb; flex-wrap: wrap; gap: 4px; }
         .preview-info i { color: #facc15; margin-right: 4px; }
 
-        .tools-top {
+        .tools-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             gap: 8px;
             margin: 12px 0;
         }
-        .tool-top {
+        .tool-btn {
             background: rgba(20, 26, 36, 0.7);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(42, 51, 70, 0.4);
@@ -63,55 +96,42 @@
             padding: 14px 6px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: 0.15s;
         }
-        .tool-top:active { transform: scale(0.94); background: rgba(30, 42, 58, 0.8); }
-        .tool-top i { font-size: 1.8rem; display: block; margin-bottom: 4px; color: #8b9dff; }
-        .tool-top .name { font-size: 0.7rem; font-weight: 600; color: #e8edf5; }
-        .tool-top .desc { font-size: 0.5rem; color: #8899bb; }
+        .tool-btn:active { transform: scale(0.94); background: rgba(30, 42, 58, 0.8); }
+        .tool-btn i { font-size: 1.8rem; display: block; margin-bottom: 4px; color: #8b9dff; }
+        .tool-btn .name { font-size: 0.65rem; font-weight: 600; color: #e8edf5; }
+        .tool-btn .desc { font-size: 0.45rem; color: #8899bb; }
+        .tool-btn.full { grid-column: 1 / -1; }
 
-        .tools-bottom {
+        .fitur-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             gap: 8px;
             margin: 12px 0;
         }
-        .tool-bottom {
+        .fitur-btn {
             background: rgba(20, 26, 36, 0.7);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(42, 51, 70, 0.4);
             border-radius: 16px;
-            padding: 16px 8px;
+            padding: 14px 6px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.15s;
-            position: relative;
-            overflow: hidden;
+            transition: 0.15s;
         }
-        .tool-bottom:active { transform: scale(0.94); background: rgba(30, 42, 58, 0.8); }
-        .tool-bottom::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(250, 204, 21, 0.08) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .tool-bottom:active::before { opacity: 1; }
-        .tool-bottom i { font-size: 2rem; display: block; margin-bottom: 6px; color: #facc15; }
-        .tool-bottom .name { font-size: 0.75rem; font-weight: 700; color: #e8edf5; }
-        .tool-bottom .count { font-size: 0.55rem; color: #facc15; }
-        .tool-bottom .desc { font-size: 0.5rem; color: #8899bb; }
+        .fitur-btn:active { transform: scale(0.94); background: rgba(30, 42, 58, 0.8); }
+        .fitur-btn i { font-size: 1.8rem; display: block; margin-bottom: 4px; color: #facc15; }
+        .fitur-btn .name { font-size: 0.65rem; font-weight: 700; color: #e8edf5; }
+        .fitur-btn .count { font-size: 0.5rem; color: #facc15; }
+        .fitur-btn .desc { font-size: 0.45rem; color: #8899bb; }
 
         .slider-group { margin: 8px 0; padding: 12px; background: rgba(17, 24, 36, 0.6); backdrop-filter: blur(5px); border-radius: 16px; border: 1px solid rgba(31, 42, 58, 0.4); }
         .slider-group label { font-size: 0.7rem; color: #b7cbff; display: flex; justify-content: space-between; }
         .slider-group input[type="range"] { width: 100%; accent-color: #facc15; }
 
         .filter-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-        .btn-filter { background: rgba(20, 26, 36, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(42, 51, 70, 0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.55rem; color: #b7cbff; cursor: pointer; transition: all 0.15s; }
+        .btn-filter { background: rgba(20, 26, 36, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(42, 51, 70, 0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.55rem; color: #b7cbff; cursor: pointer; transition: 0.15s; }
         .btn-filter:active { background: rgba(30, 42, 58, 0.8); transform: scale(0.94); }
 
         .settings-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
@@ -119,13 +139,23 @@
         .settings-box label { font-size: 0.7rem; color: #b7cbff; display: block; margin-bottom: 4px; }
         .settings-box select { width: 100%; padding: 8px; border-radius: 12px; background: rgba(20, 26, 36, 0.8); color: #e8edf5; border: 1px solid rgba(42, 51, 70, 0.4); font-size: 0.7rem; outline: none; }
 
-        .history-box { background: rgba(15, 20, 30, 0.6); backdrop-filter: blur(5px); border-radius: 16px; padding: 12px; border: 1px solid rgba(31, 42, 58, 0.4); margin: 12px 0; max-height: 200px; overflow-y: auto; }
+        .history-box {
+            background: rgba(15, 20, 30, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 12px;
+            border: 1px solid rgba(31, 42, 58, 0.4);
+            margin: 12px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
         .history-item { padding: 6px 12px; border-bottom: 1px solid rgba(26, 35, 50, 0.4); font-size: 0.65rem; color: #b7cbff; display: flex; justify-content: space-between; align-items: center; }
         .history-item i { margin-right: 8px; }
 
         .social-links { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0; }
-        .social-links .btn { padding: 10px; border-radius: 16px; font-size: 0.6rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; flex-direction: column; border: 1px solid rgba(42, 51, 70, 0.4); background: rgba(20, 26, 36, 0.6); backdrop-filter: blur(5px); color: #e8edf5; cursor: pointer; text-decoration: none; transition: all 0.15s; }
+        .social-links .btn { padding: 10px; border-radius: 16px; font-size: 0.6rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; flex-direction: column; border: 1px solid rgba(42, 51, 70, 0.4); background: rgba(20, 26, 36, 0.6); backdrop-filter: blur(5px); color: #e8edf5; cursor: pointer; text-decoration: none; transition: 0.15s; }
         .social-links .btn:active { transform: scale(0.94); background: rgba(30, 42, 58, 0.8); }
+        .social-links .btn i { font-size: 1.2rem; }
         .btn.whatsapp i { color: #25d366; }
         .btn.channel i { color: #25d366; }
         .btn.source i { color: #f0f4ff; }
@@ -173,18 +203,17 @@
         .footer a { color: #facc15; text-decoration: none; }
 
         @media (max-width: 480px) {
-            .tools-top { grid-template-columns: repeat(5, 1fr); gap: 4px; }
-            .tools-bottom { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+            .tools-grid { grid-template-columns: 1fr 1fr; }
+            .fitur-grid { grid-template-columns: 1fr 1fr 1fr; }
             .settings-row { grid-template-columns: 1fr; }
             .social-links { grid-template-columns: 1fr 1fr 1fr; }
-            .tool-top { padding: 10px 4px; }
-            .tool-top i { font-size: 1.2rem; }
-            .tool-top .name { font-size: 0.55rem; }
-            .tool-bottom { padding: 12px 4px; }
-            .tool-bottom i { font-size: 1.4rem; }
-            .tool-bottom .name { font-size: 0.6rem; }
-            .modal-box { padding: 20px; margin: 10px; }
             .modal-box ul { grid-template-columns: 1fr; }
+            .tool-btn { padding: 10px 4px; }
+            .tool-btn i { font-size: 1.2rem; }
+            .tool-btn .name { font-size: 0.5rem; }
+            .fitur-btn { padding: 10px 4px; }
+            .fitur-btn i { font-size: 1.2rem; }
+            .fitur-btn .name { font-size: 0.5rem; }
         }
     </style>
 </head>
@@ -196,29 +225,49 @@
         <div class="badge"><i class="fas fa-star" style="color:#facc15;"></i> v3.0</div>
     </div>
 
-    <!-- ===== TOOLS ATAS ===== -->
-    <div class="tools-top">
-        <div class="tool-top" onclick="document.getElementById('fileInputImage').click();">
+    <!-- ===== USER CARD ===== -->
+    <div class="user-card">
+        <div class="avatar">R</div>
+        <div class="info">
+            <h3>rayze kagenou</h3>
+            <p>#974863 • <span class="owner">OWNER ID 1</span> • <span class="member">MEMBER</span></p>
+        </div>
+    </div>
+
+    <!-- ===== PREVIEW ===== -->
+    <div class="preview-box">
+        <canvas id="canvas" width="800" height="400"></canvas>
+        <video id="previewVideo" controls></video>
+        <div class="preview-info">
+            <span><i class="fas fa-camera"></i> <span id="imgInfo">Upload foto/video</span></span>
+            <span><i class="fas fa-sliders-h"></i> <span id="filterInfo">Original</span></span>
+            <span><i class="fas fa-clock"></i> <span id="fpsInfo">FPS: 60</span></span>
+        </div>
+    </div>
+
+    <!-- ===== TOOLS ===== -->
+    <div class="tools-grid">
+        <div class="tool-btn" onclick="document.getElementById('fileInputImage').click();">
             <i class="fas fa-image"></i>
             <div class="name">Upload Foto</div>
             <div class="desc">Klik untuk upload</div>
         </div>
-        <div class="tool-top" onclick="document.getElementById('fileInputVideo').click();">
+        <div class="tool-btn" onclick="document.getElementById('fileInputVideo').click();">
             <i class="fas fa-video"></i>
             <div class="name">Upload Video</div>
             <div class="desc">Klik untuk upload</div>
         </div>
-        <div class="tool-top" onclick="downloadImage()">
+        <div class="tool-btn" onclick="downloadImage()">
             <i class="fas fa-download"></i>
             <div class="name">Ekspor Foto</div>
             <div class="desc">Download PNG</div>
         </div>
-        <div class="tool-top" onclick="exportVideo()">
+        <div class="tool-btn" onclick="exportVideo()">
             <i class="fas fa-file-video"></i>
             <div class="name">Ekspor Video</div>
             <div class="desc">Download MP4</div>
         </div>
-        <div class="tool-top" onclick="resetImage()">
+        <div class="tool-btn" onclick="resetImage()">
             <i class="fas fa-undo"></i>
             <div class="name">Reset</div>
             <div class="desc">Kembalikan</div>
@@ -227,50 +276,37 @@
         <input type="file" id="fileInputVideo" accept="video/*" onchange="handleUploadVideo(event)">
     </div>
 
-    <!-- ===== PREVIEW ===== -->
-    <div class="preview-wrapper">
-        <div class="preview-box">
-            <canvas id="canvas" width="800" height="400"></canvas>
-            <video id="previewVideo" controls></video>
-            <div class="preview-info">
-                <span><i class="fas fa-camera"></i> <span id="imgInfo">Upload foto/video</span></span>
-                <span><i class="fas fa-sliders-h"></i> <span id="filterInfo">Original</span></span>
-                <span><i class="fas fa-clock"></i> <span id="fpsInfo">FPS: 60</span></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== TOOLS BAWAH - FITUR BESAR ===== -->
-    <div class="tools-bottom">
-        <div class="tool-bottom" onclick="showFitur('Filter HD', 5000, generateTools('Filter', 5000))">
+    <!-- ===== FITUR 1-5 ===== -->
+    <div class="fitur-grid">
+        <div class="fitur-btn" onclick="showFitur('Filter HD', 5000, generateTools('Filter', 5000))">
             <i class="fas fa-sliders-h"></i>
-            <div class="name">Filter HD</div>
+            <div class="name">Fitur 1</div>
             <div class="count">5000+ Tools</div>
-            <div class="desc">Filter & Efek</div>
+            <div class="desc">Filter HD</div>
         </div>
-        <div class="tool-bottom" onclick="showFitur('Edit Pro', 3000, generateTools('Edit', 3000))">
+        <div class="fitur-btn" onclick="showFitur('Edit Pro', 3000, generateTools('Edit', 3000))">
             <i class="fas fa-edit"></i>
-            <div class="name">Edit Pro</div>
+            <div class="name">Fitur 2</div>
             <div class="count">3000+ Tools</div>
-            <div class="desc">Edit Ultra HD</div>
+            <div class="desc">Edit Pro</div>
         </div>
-        <div class="tool-bottom" onclick="showFitur('Tools HD', 4000, generateTools('HD', 4000))">
+        <div class="fitur-btn" onclick="showFitur('Tools HD', 4000, generateTools('HD', 4000))">
             <i class="fas fa-hdd"></i>
-            <div class="name">Tools HD</div>
+            <div class="name">Fitur 3</div>
             <div class="count">4000+ Tools</div>
-            <div class="desc">HD 4K 8K</div>
+            <div class="desc">Tools HD</div>
         </div>
-        <div class="tool-bottom" onclick="showFitur('Ultra 4K', 2000, generateTools('4K', 2000))">
+        <div class="fitur-btn" onclick="showFitur('Ultra 4K', 2000, generateTools('4K', 2000))">
             <i class="fas fa-film"></i>
-            <div class="name">Ultra 4K</div>
+            <div class="name">Fitur 4</div>
             <div class="count">2000+ Tools</div>
-            <div class="desc">Edit Ultra HD 4K</div>
+            <div class="desc">Ultra 4K</div>
         </div>
-        <div class="tool-bottom" onclick="document.getElementById('historyBox').scrollIntoView({behavior:'smooth'});">
+        <div class="fitur-btn" onclick="document.getElementById('historyBox').scrollIntoView({behavior:'smooth'});">
             <i class="fas fa-history"></i>
-            <div class="name">Histori</div>
+            <div class="name">Fitur 5</div>
             <div class="count">Semua</div>
-            <div class="desc">Foto & Video</div>
+            <div class="desc">Histori</div>
         </div>
     </div>
 
@@ -372,15 +408,15 @@
 
     <!-- ===== FOOTER ===== -->
     <div class="footer">
-        <i class="fas fa-code"></i> Rayze - HD Pro | v3.0 | 5000+ Tools | <a href="https://github.com/rayzekagenou-dev/Rayze-HD" target="_blank">Source</a>
+        <i class="fas fa-code"></i> Rayze - HD Pro | v3.0 | <a href="https://github.com/rayzekagenou-dev/Rayze-HD" target="_blank">Source</a>
     </div>
 
     <script>
         // ===== GENERATE TOOLS =====
         function generateTools(prefix, count) {
             const tools = [];
-            const suffixes = ['Pro', 'Ultra', 'Max', 'Plus', 'Elite', 'Prime', 'Extreme', 'Legend', 'Master', 'Ultimate'];
-            const categories = ['Color', 'Light', 'Shadow', 'Texture', 'Blend', 'Layer', 'Mask', 'Channel', 'Histogram', 'Curve'];
+            const suffixes = ['Pro', 'Ultra', 'Max', 'Plus', 'Elite', 'Prime', 'Extreme', 'Legend', 'Master', 'Ultimate', 'Gold', 'Platinum', 'Diamond', 'Titan', 'Omega', 'Alpha', 'Beta', 'Gamma', 'Delta', 'Sigma', 'Omega', 'Nova', 'Pulse', 'Flux', 'Vortex'];
+            const categories = ['Color', 'Light', 'Shadow', 'Texture', 'Blend', 'Layer', 'Mask', 'Channel', 'Histogram', 'Curve', 'Gradient', 'Pattern', 'Noise', 'Grain', 'Vignette', 'Bloom', 'Glow', 'HDR', 'Tone', 'Gamma', 'Exposure', 'Contrast', 'Brightness', 'Saturation', 'Hue', 'Vibrance', 'Clarity', 'Dehaze', 'Temperature', 'Tint', 'Luminance', 'Chroma', 'Luma', 'RGB', 'CMYK', 'HSL', 'HSV', 'LAB', 'XYZ'];
             
             for (let i = 0; i < count; i++) {
                 const category = categories[i % categories.length];
@@ -533,7 +569,7 @@
             if (!isVideoMode) applyFilter('original');
         }
 
-        // ===== FILTER FOTO =====
+        // ===== FILTER =====
         function applyFilter(type) {
             if (!imageData) {
                 if (isVideoMode) {
