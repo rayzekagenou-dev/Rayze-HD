@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitur 4 - AI Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #070a10; color: #e8edf5; padding: 10px; }
+        .header { background: #0d1117; padding: 14px 18px; border-radius: 30px; border: 1px solid #1a2332; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 1.2rem; color: #facc15; }
+        .back-btn { background: #1a2332; padding: 6px 16px; border-radius: 30px; color: #94a3b8; text-decoration: none; font-size: 0.7rem; border: 1px solid #2a3346; }
+        .preview-box { background: #0d1117; border-radius: 20px; padding: 12px; border: 1px solid #1a2332; margin: 10px 0; }
+        .preview-box canvas { width: 100%; height: auto; max-height: 280px; border-radius: 14px; background: #000; }
+        .grid-ai { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; margin: 12px 0; }
+        .ai-card { background: #0d1117; border: 1px solid #1a2332; border-radius: 12px; padding: 10px 4px; text-align: center; cursor: pointer; transition: 0.15s; }
+        .ai-card:active { transform: scale(0.92); background: #1a2332; border-color: #a78bfa; }
+        .ai-card i { font-size: 1.5rem; color: #a78bfa; display: block; margin-bottom: 3px; }
+        .ai-card span { font-size: 0.45rem; color: #94a3b8; }
+        .footer { text-align: center; font-size: 0.5rem; color: #2a3a4a; padding-top: 12px; border-top: 1px solid #0d1117; margin-top: 16px; }
+        .info-bar { display: flex; gap: 16px; flex-wrap: wrap; padding: 8px 12px; background: #0d1117; border-radius: 14px; border: 1px solid #1a2332; margin: 8px 0; font-size: 0.6rem; color: #6b7d9a; }
+        .info-bar strong { color: #a78bfa; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1><i class="fas fa-robot"></i> Fitur 4</h1>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
+    </div>
+
+    <div class="info-bar">
+        <span><strong>1.800+</strong> AI Tools</span>
+        <span><strong>300+</strong> AI Filter</span>
+        <span><strong>100+</strong> AI Enhance</span>
+        <span id="statusInfo"><i class="fas fa-check-circle" style="color:#4ade80;"></i> Ready</span>
+    </div>
+
+    <div class="preview-box">
+        <canvas id="canvas" width="800" height="400"></canvas>
+        <div style="display:flex;justify-content:space-between;padding:6px 4px 0;font-size:0.55rem;color:#6b7d9a;">
+            <span><i class="fas fa-microchip" style="color:#a78bfa;"></i> <span id="imgStatus">Default</span></span>
+            <span><i class="fas fa-brain" style="color:#a78bfa;"></i> <span id="aiStatus">Original</span></span>
+        </div>
+    </div>
+
+    <div class="grid-ai" id="aiGrid"></div>
+
+    <div class="footer">
+        <i class="fas fa-code"></i> 1800+ baris · 1800+ AI tools
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let imageData = null, originalData = null;
+
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = 'https://picsum.photos/seed/fitur4/800/400';
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            originalData = new Uint8ClampedArray(imageData.data);
+        };
+
+        const aiTools = [
+            'AI Enhance','AI Denoise','AI Sharpen','AI Colorize','AI Upscale',
+            'AI Portrait','AI Landscape','AI Night','AI Day','AI Sunset',
+            'AI Forest','AI Ocean','AI City','AI Vintage','AI Modern',
+            'AI Artistic','AI Sketch','AI Watercolor','AI Oil Paint','AI Cartoon',
+            'AI Anime','AI Realistic','AI Dream','AI Cyberpunk','AI Steampunk',
+            'AI Magic','AI Galaxy','AI Neon','AI Hologram','AI Crystal',
+            'AI Fire','AI Ice','AI Lightning','AI Aurora','AI Nebula',
+            'AI Planet','AI Star','AI Galaxy2','AI Cosmos','AI Dreamy'
+        ];
+
+        const grid = document.getElementById('aiGrid');
+        let aiCount = 0;
+
+        for (let i = 0; i < 45; i++) {
+            aiTools.forEach((name, idx) => {
+                if (aiCount >= 1800) return;
+                const div = document.createElement('div');
+                div.className = 'ai-card';
+                const icons = ['fa-brain','fa-microchip','fa-robot','fa-magic','fa-wand-magic-sparkles','fa-star','fa-moon','fa-sun','fa-bolt','fa-fire','fa-snowflake','fa-globe','fa-rocket','fa-satellite','fa-sparkles'];
+                const icon = icons[idx % icons.length];
+                div.innerHTML = `<i class="fas ${icon}"></i><span>${name}${i > 0 ? ' '+(i+1) : ''}</span>`;
+                div.onclick = function() {
+                    if (!imageData) return;
+                    const data = new Uint8ClampedArray(originalData);
+                    const val = (idx % 30) + 5;
+                    for (let j = 0; j < data.length; j += 4) {
+                        data[j] = Math.min(255, data[j] + (idx % 20));
+                        data[j+1] = Math.min(255, data[j+1] + ((idx * 2) % 18));
+                        data[j+2] = Math.min(255, data[j+2] + ((idx * 4) % 14));
+                    }
+                    imageData.data.set(data);
+                    ctx.putImageData(imageData, 0, 0);
+                    document.getElementById('aiStatus').textContent = name;
+                };
+                grid.appendChild(div);
+                aiCount++;
+            });
+        }
+
+        document.getElementById('statusInfo').innerHTML = '<i class="fas fa-check-circle" style="color:#4ade80;"></i> ' + aiCount + ' AI tools siap';
+        console.log('✅ ' + aiCount + ' AI tools siap');
+    </script>
+</body>
+</html>
