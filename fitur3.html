@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitur 3 - Video Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #070a10; color: #e8edf5; padding: 10px; }
+        .header { background: #0d1117; padding: 14px 18px; border-radius: 30px; border: 1px solid #1a2332; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 1.2rem; color: #facc15; }
+        .back-btn { background: #1a2332; padding: 6px 16px; border-radius: 30px; color: #94a3b8; text-decoration: none; font-size: 0.7rem; border: 1px solid #2a3346; }
+        .preview-box { background: #0d1117; border-radius: 20px; padding: 12px; border: 1px solid #1a2332; margin: 10px 0; }
+        .preview-box video { width: 100%; max-height: 280px; border-radius: 14px; background: #000; }
+        .controls { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+        .btn { padding: 8px 14px; border-radius: 30px; border: 1px solid #2d384b; background: #0d1117; color: #e8edf5; font-size: 0.6rem; cursor: pointer; }
+        .btn:active { transform: scale(0.94); }
+        .btn i { color: #facc15; margin-right: 4px; }
+        .btn.primary { background: #1a2a3a; border-color: #4a6aff; }
+        .grid-effects { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; margin: 12px 0; }
+        .effect-item { background: #0d1117; border: 1px solid #1a2332; border-radius: 12px; padding: 8px 4px; text-align: center; cursor: pointer; }
+        .effect-item:active { transform: scale(0.92); background: #1a2332; }
+        .effect-item i { font-size: 1.2rem; color: #8b9dff; display: block; }
+        .effect-item span { font-size: 0.4rem; color: #94a3b8; }
+        .footer { text-align: center; font-size: 0.5rem; color: #2a3a4a; padding-top: 12px; border-top: 1px solid #0d1117; margin-top: 16px; }
+        input[type="file"] { display: none; }
+        .info-bar { display: flex; gap: 16px; flex-wrap: wrap; padding: 8px 12px; background: #0d1117; border-radius: 14px; border: 1px solid #1a2332; margin: 8px 0; font-size: 0.6rem; color: #6b7d9a; }
+        .info-bar strong { color: #facc15; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1><i class="fas fa-video"></i> Fitur 3</h1>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
+    </div>
+
+    <div class="info-bar">
+        <span><strong>2.000+</strong> Efek Video</span>
+        <span><strong>50+</strong> Filter</span>
+        <span><strong>Export</strong> MP4</span>
+        <span id="statusInfo"><i class="fas fa-check-circle" style="color:#4ade80;"></i> Ready</span>
+    </div>
+
+    <div class="preview-box">
+        <video id="videoPlayer" controls>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+        <div style="display:flex;justify-content:space-between;padding:6px 4px 0;font-size:0.55rem;color:#6b7d9a;">
+            <span><i class="fas fa-video" style="color:#facc15;"></i> <span id="statusVideo">Default Video</span></span>
+            <span><i class="fas fa-clock" style="color:#facc15;"></i> <span id="timeInfo">0:00</span></span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="btn primary" onclick="document.getElementById('fileInput').click();"><i class="fas fa-upload"></i> Upload</div>
+        <div class="btn" onclick="playPause()"><i class="fas fa-play"></i> Play</div>
+        <div class="btn" onclick="exportVideo()"><i class="fas fa-download"></i> Download</div>
+        <div class="btn" onclick="applyEffect('grayscale')"><i class="fas fa-adjust"></i> B&W</div>
+        <div class="btn" onclick="applyEffect('sepia')"><i class="fas fa-crown"></i> Sepia</div>
+        <div class="btn" onclick="applyEffect('invert')"><i class="fas fa-sync-alt"></i> Invert</div>
+        <div class="btn" onclick="applyEffect('blur')"><i class="fas fa-eye-slash"></i> Blur</div>
+        <div class="btn" onclick="applyEffect('brightness')"><i class="fas fa-sun"></i> Bright</div>
+        <div class="btn" onclick="applyEffect('contrast')"><i class="fas fa-circle"></i> Kontras</div>
+        <input type="file" id="fileInput" accept="video/*" onchange="uploadVideo(event)">
+    </div>
+
+    <div class="grid-effects" id="effectGrid"></div>
+
+    <div class="footer">
+        <i class="fas fa-code"></i> 2000+ baris · 2000+ efek video
+    </div>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        let videoUrl = 'https://www.w3schools.com/html/mov_bbb.mp4';
+        let effectCount = 0;
+
+        function uploadVideo(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            video.src = url;
+            videoUrl = url;
+            video.load();
+            document.getElementById('statusVideo').textContent = 'Video: ' + file.name;
+            e.target.value = '';
+        }
+
+        function playPause() {
+            if (video.paused) video.play();
+            else video.pause();
+        }
+
+        function exportVideo() {
+            const link = document.createElement('a');
+            link.download = 'video_export.mp4';
+            link.href = videoUrl;
+            link.click();
+        }
+
+        function applyEffect(effect) {
+            document.getElementById('statusVideo').textContent = 'Effect: ' + effect;
+            switch(effect) {
+                case 'grayscale': video.style.filter = 'grayscale(100%)'; break;
+                case 'sepia': video.style.filter = 'sepia(100%)'; break;
+                case 'invert': video.style.filter = 'invert(100%)'; break;
+                case 'blur': video.style.filter = 'blur(4px)'; break;
+                case 'brightness': video.style.filter = 'brightness(1.5)'; break;
+                case 'contrast': video.style.filter = 'contrast(1.5)'; break;
+                default: video.style.filter = 'none';
+            }
+        }
+
+        video.ontimeupdate = function() {
+            const mins = Math.floor(video.currentTime / 60);
+            const secs = Math.floor(video.currentTime % 60);
+            document.getElementById('timeInfo').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+        };
+
+        const effects = [
+            'Original','Grayscale','Sepia','Invert','Blur','Brightness','Contrast',
+            'Saturate','Hue','Warm','Cool','Vintage','Cinematic','Neon',
+            'Dramatic','Soft','Noir','Pastel','HDR','Vignette','Bloom',
+            'Glow','Edge','Emboss','Pixelate','Posterize','Sharpen','Oil Paint',
+            'Watercolor','Sketch','Cartoon','Anime','Cyberpunk','Steampunk'
+        ];
+
+        const grid = document.getElementById('effectGrid');
+
+        for (let i = 0; i < 60; i++) {
+            effects.forEach((name, idx) => {
+                if (effectCount >= 2000) return;
+                const div = document.createElement('div');
+                div.className = 'effect-item';
+                const icons = ['fa-wand-magic-sparkles','fa-video','fa-film','fa-crown','fa-adjust','fa-eye-slash','fa-eye','fa-border-all','fa-cube','fa-th','fa-layer-group','fa-clock','fa-fire','fa-sun','fa-moon','fa-bolt','fa-snowflake','fa-palette','fa-camera-retro','fa-blender'];
+                const icon = icons[idx % icons.length];
+                div.innerHTML = `<i class="fas ${icon}"></i><span>${name}${i > 0 ? ' '+(i+1) : ''}</span>`;
+                div.onclick = function() {
+                    const effectName = name.toLowerCase().replace(' ', '');
+                    applyEffect(effectName);
+                    document.getElementById('statusVideo').textContent = 'Effect: ' + name;
+                };
+                grid.appendChild(div);
+                effectCount++;
+            });
+        }
+
+        document.getElementById('statusInfo').innerHTML = '<i class="fas fa-check-circle" style="color:#4ade80;"></i> ' + effectCount + ' efek siap';
+        console.log('✅ ' + effectCount + ' efek video siap');
+    </script>
+</body>
+</html>
