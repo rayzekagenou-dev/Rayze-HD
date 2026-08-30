@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rayze - Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body {
+            background: #0a0d14;
+            color: #e8edf5;
+            padding: 12px;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(250, 204, 21, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(250, 204, 21, 0.05) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+        }
+
+        .header {
+            background: rgba(20, 26, 36, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(42, 51, 70, 0.5);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header h1 { font-size: 1.3rem; color: #facc15; }
+        .header h1 i { margin-right: 8px; }
+        .back-btn { background: #1f2937; padding: 6px 16px; border-radius: 30px; color: #b7cbff; text-decoration: none; font-size: 0.7rem; }
+        .back-btn:active { transform: scale(0.94); }
+
+        .preview-box {
+            background: rgba(15, 20, 30, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 16px;
+            border: 1px solid rgba(31, 42, 58, 0.5);
+            margin: 12px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .preview-box canvas { width: 100%; height: auto; border-radius: 14px; background: #000; max-height: 350px; display: block; border: 1px solid rgba(250, 204, 21, 0.1); }
+        .preview-box video { width: 100%; max-height: 350px; border-radius: 14px; background: #000; display: none; }
+        .preview-info { display: flex; justify-content: space-between; padding-top: 10px; font-size: 0.6rem; color: #8899bb; flex-wrap: wrap; gap: 4px; }
+        .preview-info i { color: #facc15; margin-right: 4px; }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .tool-btn {
+            background: rgba(20, 26, 36, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(42, 51, 70, 0.4);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .tool-btn:active { transform: scale(0.94); background: rgba(30, 42, 58, 0.8); }
+        .tool-btn i { font-size: 2rem; display: block; margin-bottom: 6px; color: #facc15; }
+        .tool-btn .name { font-size: 0.8rem; font-weight: 700; color: #e8edf5; }
+        .tool-btn .count { font-size: 0.55rem; color: #facc15; }
+        .tool-btn .desc { font-size: 0.5rem; color: #8899bb; }
+        .tool-btn.full { grid-column: 1 / -1; }
+
+        .slider-group { margin: 8px 0; padding: 12px; background: rgba(17, 24, 36, 0.6); backdrop-filter: blur(5px); border-radius: 16px; border: 1px solid rgba(31, 42, 58, 0.4); }
+        .slider-group label { font-size: 0.7rem; color: #b7cbff; display: flex; justify-content: space-between; }
+        .slider-group input[type="range"] { width: 100%; accent-color: #facc15; }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+        .btn-filter {
+            background: rgba(20, 26, 36, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(42, 51, 70, 0.4);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.55rem;
+            color: #b7cbff;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .btn-filter:active { background: rgba(30, 42, 58, 0.8); transform: scale(0.94); }
+
+        .settings-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+        .settings-box { background: rgba(17, 24, 36, 0.6); backdrop-filter: blur(5px); border-radius: 16px; padding: 12px; border: 1px solid rgba(31, 42, 58, 0.4); }
+        .settings-box label { font-size: 0.7rem; color: #b7cbff; display: block; margin-bottom: 4px; }
+        .settings-box select { width: 100%; padding: 8px; border-radius: 12px; background: rgba(20, 26, 36, 0.8); color: #e8edf5; border: 1px solid rgba(42, 51, 70, 0.4); font-size: 0.7rem; outline: none; }
+
+        .history-box {
+            background: rgba(15, 20, 30, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 12px;
+            border: 1px solid rgba(31, 42, 58, 0.4);
+            margin: 12px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .history-item { padding: 6px 12px; border-bottom: 1px solid rgba(26, 35, 50, 0.4); font-size: 0.65rem; color: #b7cbff; display: flex; justify-content: space-between; align-items: center; }
+        .history-item i { margin-right: 8px; }
+
+        .social-links { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0; }
+        .social-links .btn { padding: 10px; border-radius: 16px; font-size: 0.6rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; flex-direction: column; border: 1px solid rgba(42, 51, 70, 0.4); background: rgba(20, 26, 36, 0.6); backdrop-filter: blur(5px); color: #e8edf5; cursor: pointer; text-decoration: none; transition: 0.15s; }
+        .social-links .btn:active { transform: scale(0.94); background: rgba(30, 42, 58, 0.8); }
+        .social-links .btn i { font-size: 1.2rem; }
+        .btn.whatsapp i { color: #25d366; }
+        .btn.channel i { color: #25d366; }
+        .btn.source i { color: #f0f4ff; }
+
+        input[type="file"] { display: none; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-box {
+            background: rgba(20, 26, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid rgba(250, 204, 21, 0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-box h2 { color: #facc15; margin-bottom: 16px; font-size: 1.2rem; }
+        .modal-box h2 i { margin-right: 8px; }
+        .modal-box .close-btn { float: right; background: rgba(127, 29, 29, 0.6); border: none; color: #e8edf5; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; }
+        .modal-box .close-btn:active { transform: scale(0.94); }
+        .modal-box ul { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+        .modal-box ul li { padding: 6px 10px; border-bottom: 1px solid rgba(42, 51, 70, 0.2); font-size: 0.7rem; color: #b7cbff; display: flex; align-items: center; gap: 6px; }
+        .modal-box ul li i { color: #4ade80; font-size: 0.6rem; }
+
+        .footer { text-align: center; font-size: 0.55rem; color: #4a5a72; padding-top: 16px; border-top: 1px solid rgba(26, 35, 50, 0.4); margin-top: 20px; }
+        .footer a { color: #facc15; text-decoration: none; }
+
+        @media (max-width: 480px) {
+            .tools-grid { grid-template-columns: 1fr 1fr; }
+            .settings-row { grid-template-columns: 1fr; }
+            .social-links { grid-template-columns: 1fr 1fr 1fr; }
+            .modal-box ul { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h1><i class="fas fa-crown"></i>Rayze - Tools</h1>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
+    </div>
+
+    <!-- ===== PREVIEW ===== -->
+    <div class="preview-box">
+        <canvas id="canvas" width="800" height="400"></canvas>
+        <video id="previewVideo" controls></video>
+        <div class="preview-info">
+            <span><i class="fas fa-camera"></i> <span id="imgInfo">Upload foto/video</span></span>
+            <span><i class="fas fa-sliders-h"></i> <span id="filterInfo">Original</span></span>
+            <span><i class="fas fa-clock"></i> <span id="fpsInfo">FPS: 60</span></span>
+        </div>
+    </div>
+
+    <!-- ===== TOOLS UPLOAD ===== -->
+    <div class="tools-grid">
+        <div class="tool-btn" onclick="document.getElementById('fileInputImage').click();">
+            <i class="fas fa-image"></i>
+            <div class="name">Upload Foto</div>
+            <div class="desc">Klik untuk upload</div>
+        </div>
+        <div class="tool-btn" onclick="document.getElementById('fileInputVideo').click();">
+            <i class="fas fa-video"></i>
+            <div class="name">Upload Video</div>
+            <div class="desc">Klik untuk upload</div>
+        </div>
+        <div class="tool-btn" onclick="downloadImage()">
+            <i class="fas fa-download"></i>
+            <div class="name">Ekspor Foto</div>
+            <div class="desc">Download PNG</div>
+        </div>
+        <div class="tool-btn" onclick="exportVideo()">
+            <i class="fas fa-file-video"></i>
+            <div class="name">Ekspor Video</div>
+            <div class="desc">Download MP4</div>
+        </div>
+        <div class="tool-btn full" onclick="resetImage()">
+            <i class="fas fa-undo"></i>
+            <div class="name">Reset</div>
+            <div class="desc">Kembalikan ke awal</div>
+        </div>
+        <input type="file" id="fileInputImage" accept="image/*" onchange="handleUploadImage(event)">
+        <input type="file" id="fileInputVideo" accept="video/*" onchange="handleUploadVideo(event)">
+    </div>
+
+    <!-- ===== FITUR TOOLS ===== -->
+    <div class="tools-grid">
+        <div class="tool-btn" onclick="showFitur('Filter HD', 5000, generateTools('Filter', 5000))">
+            <i class="fas fa-sliders-h"></i>
+            <div class="name">Filter HD</div>
+            <div class="count">5000+ Tools</div>
+            <div class="desc">Filter & Efek</div>
+        </div>
+        <div class="tool-btn" onclick="showFitur('Edit Pro', 3000, generateTools('Edit', 3000))">
+            <i class="fas fa-edit"></i>
+            <div class="name">Edit Pro</div>
+            <div class="count">3000+ Tools</div>
+            <div class="desc">Edit Ultra HD</div>
+        </div>
+        <div class="tool-btn" onclick="showFitur('Tools HD', 4000, generateTools('HD', 4000))">
+            <i class="fas fa-hdd"></i>
+            <div class="name">Tools HD</div>
+            <div class="count">4000+ Tools</div>
+            <div class="desc">HD 4K 8K</div>
+        </div>
+        <div class="tool-btn" onclick="showFitur('Ultra 4K', 2000, generateTools('4K', 2000))">
+            <i class="fas fa-film"></i>
+            <div class="name">Ultra 4K</div>
+            <div class="count">2000+ Tools</div>
+            <div class="desc">Edit Ultra HD 4K</div>
+        </div>
+    </div>
+
+    <!-- ===== SOSIAL ===== -->
+    <div class="social-links">
+        <a href="https://wa.me/6281234567890?text=Halo%20Rayze%20Developer" target="_blank" class="btn whatsapp">
+            <i class="fab fa-whatsapp"></i>
+            <span>rayze kagenou</span>
+        </a>
+        <a href="https://whatsapp.com/channel/0029Vb8ooa1DjiOapfKDcF2q" target="_blank" class="btn channel">
+            <i class="fab fa-whatsapp"></i>
+            <span>Saluran WA</span>
+        </a>
+        <a href="https://github.com/rayzekagenou-dev/Rayze-HD" target="_blank" class="btn source">
+            <i class="fab fa-github"></i>
+            <span>Source Rayze</span>
+        </a>
+    </div>
+
+    <!-- ===== SLIDERS ===== -->
+    <div class="slider-group">
+        <label>Brightness <span class="value" id="brightnessVal">100%</span></label>
+        <input type="range" id="brightness" min="0" max="200" value="100" oninput="updateSlider()">
+    </div>
+    <div class="slider-group">
+        <label>Contrast <span class="value" id="contrastVal">100%</span></label>
+        <input type="range" id="contrast" min="0" max="200" value="100" oninput="updateSlider()">
+    </div>
+    <div class="slider-group">
+        <label>Saturation <span class="value" id="saturationVal">100%</span></label>
+        <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateSlider()">
+    </div>
+
+    <!-- ===== FILTER ===== -->
+    <div class="filter-buttons">
+        <div class="btn-filter" onclick="applyFilter('original')">Original</div>
+        <div class="btn-filter" onclick="applyFilter('grayscale')">Grayscale</div>
+        <div class="btn-filter" onclick="applyFilter('sepia')">Sepia</div>
+        <div class="btn-filter" onclick="applyFilter('invert')">Invert</div>
+        <div class="btn-filter" onclick="applyFilter('blur')">Blur</div>
+        <div class="btn-filter" onclick="applyFilter('sharpen')">Sharpen</div>
+        <div class="btn-filter" onclick="applyFilter('edge')">Edge</div>
+        <div class="btn-filter" onclick="applyFilter('emboss')">Emboss</div>
+        <div class="btn-filter" onclick="applyFilter('pixelate')">Pixelate</div>
+        <div class="btn-filter" onclick="applyFilter('posterize')">Posterize</div>
+        <div class="btn-filter" onclick="applyFilter('vintage')">Vintage</div>
+        <div class="btn-filter" onclick="applyFilter('cinematic')">Cinematic</div>
+        <div class="btn-filter" onclick="applyFilter('neon')">Neon</div>
+        <div class="btn-filter" onclick="applyFilter('noir')">Noir</div>
+        <div class="btn-filter" onclick="applyFilter('hdr')">HDR</div>
+    </div>
+
+    <!-- ===== FPS & RESOLUSI ===== -->
+    <div class="settings-row">
+        <div class="settings-box">
+            <label><i class="fas fa-clock"></i> FPS</label>
+            <select id="fpsSelect" onchange="document.getElementById('fpsInfo').textContent='FPS: '+this.value">
+                <option value="10">10 FPS</option>
+                <option value="30">30 FPS</option>
+                <option value="60" selected>60 FPS</option>
+                <option value="90">90 FPS</option>
+                <option value="120">120 FPS</option>
+                <option value="144">144 FPS</option>
+                <option value="210">210 FPS</option>
+                <option value="244">244 FPS</option>
+                <option value="320">320 FPS</option>
+            </select>
+        </div>
+        <div class="settings-box">
+            <label><i class="fas fa-expand"></i> Resolusi</label>
+            <select id="resolusiSelect">
+                <option value="480p">480p (854x480)</option>
+                <option value="720p">720p (1280x720)</option>
+                <option value="1080p" selected>1080p (1920x1080)</option>
+                <option value="2K">2K (2560x1440)</option>
+                <option value="4K">4K (3840x2160)</option>
+                <option value="8K">8K (7680x4320)</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ===== HISTORI ===== -->
+    <div style="margin:12px 0;">
+        <h3 style="color:#facc15;font-size:0.85rem;margin-bottom:8px;"><i class="fas fa-history"></i> Histori Edit</h3>
+        <div class="history-box" id="historyList">
+            <div class="history-item"><span><i class="fas fa-check-circle" style="color:#4ade80;"></i> Original</span><span>Now</span></div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i> Tutup</button>
+            <h2 id="modalTitle"><i class="fas fa-sliders-h"></i> Filter HD</h2>
+            <p style="color:#8899bb;font-size:0.7rem;margin-bottom:12px;" id="modalCount">5000+ Tools</p>
+            <ul id="modalList"></ul>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <i class="fas fa-code"></i> Rayze - HD Pro | v3.0 | <a href="https://github.com/rayzekagenou-dev/Rayze-HD" target="_blank">Source</a>
+    </div>
+
+    <script>
+        // ===== GENERATE TOOLS =====
+        function generateTools(prefix, count) {
+            const tools = [];
+            const suffixes = ['Pro', 'Ultra', 'Max', 'Plus', 'Elite', 'Prime', 'Extreme', 'Legend', 'Master', 'Ultimate', 'Gold', 'Platinum', 'Diamond', 'Titan', 'Omega'];
+            const categories = ['Color', 'Light', 'Shadow', 'Texture', 'Blend', 'Layer', 'Mask', 'Channel', 'Histogram', 'Curve', 'Gradient', 'Pattern', 'Noise', 'Grain', 'Vignette', 'Bloom', 'Glow', 'HDR', 'Tone', 'Gamma', 'Exposure', 'Contrast', 'Brightness', 'Saturation', 'Hue', 'Vibrance', 'Clarity', 'Dehaze', 'Temperature', 'Tint'];
+            
+            for (let i = 0; i < count; i++) {
+                const category = categories[i % categories.length];
+                const suffix = suffixes[i % suffixes.length];
+                const num = i + 1;
+                tools.push(`${prefix} ${category} ${suffix} ${num}`);
+            }
+            return tools;
+        }
+
+        // ===== CANVAS =====
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const video = document.getElementById('previewVideo');
+        let imageData = null;
+        let originalImageData = null;
+        let isVideoMode = false;
+        let videoUrl = null;
+        let history = [];
+
+        // ===== LOAD DEFAULT =====
+        function loadDefault() {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.src = 'https://picsum.photos/seed/hdpro/800/400';
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                originalImageData = new Uint8ClampedArray(imageData.data);
+                document.getElementById('imgInfo').textContent = 'Default Image';
+                addHistory('Load Default', 'photo');
+            };
+            img.onerror = function() {
+                ctx.fillStyle = '#1a2332';
+                ctx.fillRect(0, 0, 800, 400);
+                ctx.fillStyle = '#8899bb';
+                ctx.font = '20px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Upload Foto atau Video', 400, 200);
+            };
+        }
+        loadDefault();
+
+        // ===== HISTORI =====
+        function addHistory(action, type = 'photo') {
+            const time = new Date().toLocaleTimeString();
+            history.push({ action, time, type });
+            const list = document.getElementById('historyList');
+            const icon = type === 'photo' ? 'fa-image' : 'fa-video';
+            const color = type === 'photo' ? '#4ade80' : '#facc15';
+            list.innerHTML = history.slice(-20).reverse().map(h => 
+                `<div class="history-item">
+                    <span><i class="fas ${icon}" style="color:${color};"></i> ${h.action}</span>
+                    <span>${h.time}</span>
+                </div>`
+            ).join('');
+        }
+
+        // ===== UPLOAD FOTO =====
+        function handleUploadImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                originalImageData = new Uint8ClampedArray(imageData.data);
+                video.style.display = 'none';
+                canvas.style.display = 'block';
+                isVideoMode = false;
+                document.getElementById('imgInfo').textContent = '📷 ' + file.name;
+                document.getElementById('filterInfo').textContent = 'Original';
+                addHistory('Upload Foto: ' + file.name, 'photo');
+            };
+            img.src = url;
+            e.target.value = '';
+        }
+
+        // ===== UPLOAD VIDEO =====
+        function handleUploadVideo(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            video.src = url;
+            videoUrl = url;
+            video.style.display = 'block';
+            canvas.style.display = 'none';
+            isVideoMode = true;
+            document.getElementById('imgInfo').textContent = '🎬 ' + file.name;
+            video.load();
+            video.onloadeddata = function() { video.play().catch(() => {}); };
+            addHistory('Upload Video: ' + file.name, 'video');
+            e.target.value = '';
+        }
+
+        // ===== EKSPOR FOTO =====
+        function downloadImage() {
+            if (isVideoMode) { alert('⚠️ Sedang mode video! Gunakan Ekspor Video'); return; }
+            if (!imageData) { alert('⚠️ Upload foto dulu!'); return; }
+            const link = document.createElement('a');
+            link.download = 'edited_image.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('imgInfo').textContent = '✅ Foto diekspor!';
+            addHistory('Ekspor Foto', 'photo');
+        }
+
+        // ===== EKSPOR VIDEO =====
+        function exportVideo() {
+            if (!isVideoMode) { alert('⚠️ Upload video dulu!'); return; }
+            if (!videoUrl) { alert('⚠️ Tidak ada video!'); return; }
+            const link = document.createElement('a');
+            link.download = 'exported_video.mp4';
+            link.href = videoUrl;
+            link.click();
+            document.getElementById('imgInfo').textContent = '✅ Video diekspor!';
+            addHistory('Ekspor Video', 'video');
+        }
+
+        // ===== RESET =====
+        function resetImage() {
+            if (isVideoMode) {
+                video.currentTime = 0;
+                video.pause();
+                video.style.filter = 'none';
+                document.getElementById('filterInfo').textContent = 'Reset Video';
+                addHistory('Reset Video', 'video');
+                return;
+            }
+            if (!originalImageData) return;
+            imageData.data.set(originalImageData);
+            ctx.putImageData(imageData, 0, 0);
+            document.getElementById('filterInfo').textContent = 'Original';
+            document.getElementById('brightness').value = 100;
+            document.getElementById('contrast').value = 100;
+            document.getElementById('saturation').value = 100;
+            document.getElementById('brightnessVal').textContent = '100%';
+            document.getElementById('contrastVal').textContent = '100%';
+            document.getElementById('saturationVal').textContent = '100%';
+            addHistory('Reset Image', 'photo');
+        }
+
+        // ===== SLIDER =====
+        function updateSlider() {
+            if (!isVideoMode) applyFilter('original');
+        }
+
+        // ===== FILTER FOTO =====
+        function applyFilter(type) {
+            if (!imageData) {
+                if (isVideoMode) {
+                    const filters = {
+                        'grayscale': 'grayscale(100%)',
+                        'sepia': 'sepia(100%)',
+                        'invert': 'invert(100%)',
+                        'blur': 'blur(4px)',
+                        'sharpen': 'contrast(120%) brightness(110%)',
+                        'edge': 'contrast(150%) brightness(80%)',
+                        'emboss': 'contrast(130%) saturate(80%)',
+                        'pixelate': 'blur(2px) contrast(120%)',
+                        'posterize': 'contrast(140%) saturate(60%)',
+                        'vintage': 'sepia(60%) contrast(90%) brightness(95%)',
+                        'cinematic': 'contrast(110%) saturate(120%) brightness(105%)',
+                        'neon': 'saturate(150%) hue-rotate(180deg)',
+                        'noir': 'grayscale(80%) contrast(130%)',
+                        'hdr': 'contrast(140%) saturate(130%) brightness(110%)'
+                    };
+                    const filter = filters[type] || 'none';
+                    video.style.filter = filter;
+                    document.getElementById('filterInfo').textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                    addHistory('Video: ' + type, 'video');
+                }
+                return;
+            }
+            if (isVideoMode) return;
+            
+            const data = new Uint8ClampedArray(originalImageData);
+            const w = canvas.width, h = canvas.height;
+            const bright = parseInt(document.getElementById('brightness').value) / 100;
+            const contrast = parseInt(document.getElementById('contrast').value) / 100;
+            const sat = parseInt(document.getElementById('saturation').value) / 100;
+
+            document.getElementById('brightnessVal').textContent = Math.round(bright * 100) + '%';
+            document.getElementById('contrastVal').textContent = Math.round(contrast * 100) + '%';
+            document.getElementById('saturationVal').textContent = Math.round(sat * 100) + '%';
+
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i] * bright;
+                let g = data[i+1] * bright;
+                let b = data[i+2] * bright;
+                r = ((r/255 - 0.5) * contrast + 0.5) * 255;
+                g = ((g/255 - 0.5) * contrast + 0.5) * 255;
+                b = ((b/255 - 0.5) * contrast + 0.5) * 255;
+                const gray = 0.299*r + 0.587*g + 0.114*b;
+                r = gray + (r-gray)*sat;
+                g = gray + (g-gray)*sat;
+                b = gray + (b-gray)*sat;
+                data[i] = Math.max(0, Math.min(255, r));
+                data[i+1] = Math.max(0, Math.min(255, g));
+                data[i+2] = Math.max(0, Math.min(255, b));
+            }
+
+            const filterNames = {
+                'grayscale': 'Grayscale',
+                'sepia': 'Sepia',
+                'invert': 'Invert',
+                'blur': 'Blur',
+                'sharpen': 'Sharpen',
+                'edge': 'Edge',
+                'emboss': 'Emboss',
+                'pixelate': 'Pixelate',
+                'posterize': 'Posterize',
+                'vintage': 'Vintage',
+                'cinematic': 'Cinematic',
+                'neon': 'Neon',
+                'noir': 'Noir',
+                'hdr': 'HDR'
+            };
+
+            switch(type) {
+                case 'grayscale':
+                    for (let i = 0; i < data.length; i += 4) {
+                        const g = 0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2];
+                        data[i] = data[i+1] = data[i+2] = g;
+                    }
+                    break;
+                case 'sepia':
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i], g = data[i+1], b = data[i+2];
+                        data[i] = Math.min(255, r*0.393 + g*0.769 + b*0.189);
+                        data[i+1] = Math.min(255, r*0.349 + g*0.686 + b*0.168);
+                        data[i+2] = Math.min(255, r*0.272 + g*0.534 + b*0.131);
+                    }
+                    break;
+                case 'invert':
+                    for (let i = 0; i < data.length; i += 4) {
+                        data[i] = 255 - data[i];
+                        data[i+1] = 255 - data[i+1];
+                        data[i+2] = 255 - data[i+2];
+                    }
+                    break;
+                case 'blur':
+                    const radius = 3;
+                    const temp = new Uint8ClampedArray(data);
+                    for (let y = 0; y < h; y++) {
+                        for (let x = 0; x < w; x++) {
+                            let r=0,g=0,b=0,count=0;
+                            for (let dy=-radius; dy<=radius; dy++) {
+                                for (let dx=-radius; dx<=radius; dx++) {
+                                    const px = Math.min(w-1, Math.max(0, x+dx));
+                                    const py = Math.min(h-1, Math.max(0, y+dy));
+                                    const idx = (py*w + px)*4;
+                                    r += temp[idx]; g += temp[idx+1]; b += temp[idx+2];
+                                    count++;
+                                }
+                            }
+                            const idx = (y*w + x)*4;
+                            data[idx] = r/count; data[idx+1] = g/count; data[idx+2] = b/count;
+                        }
+                    }
+                    break;
+                case 'sharpen':
+                    const sk = [0,-1,0,-1,5,-1,0,-1,0];
+                    const res = applyKernel(data, w, h, sk);
+                    data.set(res);
+                    break;
+                case 'edge':
+                    const ek = [-1,-1,-1,-1,8,-1,-1,-1,-1];
+                    const res2 = applyKernel(data, w, h, ek);
+                    data.set(res2);
+                    break;
+                case 'emboss':
+                    const emb = [-2,-1,0,-1,1,1,0,1,2];
+                    const res3 = applyKernel(data, w, h, emb);
+                    data.set(res3);
+                    break;
+                case 'pixelate':
+                    const ps = 8;
+                    for (let y=0; y<h; y+=ps) {
+                        for (let x=0; x<w; x+=ps) {
+                            let r=0,g=0,b=0,count=0;
+                            for (let dy=0; dy<ps && y+dy<h; dy++) {
+                                for (let dx=0; dx<ps && x+dx<w; dx++) {
+                                    const idx = ((y+dy)*w + (x+dx))*4;
+                                    r += data[idx]; g += data[idx+1]; b += data[idx+2];
+                                    count++;
+                                }
+                            }
+                            r/=count; g/=count; b/=count;
+                            for (let dy=0; dy<ps && y+dy<h; dy++) {
+                                for (let dx=0; dx<ps && x+dx<w; dx++) {
+                                    const idx = ((y+dy)*w + (x+dx))*4;
+                                    data[idx] = r; data[idx+1] = g; data[idx+2] = b;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 'posterize':
+                    const levels = 4;
+                    for (let i=0; i<data.length; i+=4) {
+                        data[i] = Math.floor(data[i]/256*levels)*(256/levels);
+                        data[i+1] = Math.floor(data[i+1]/256*levels)*(256/levels);
+                        data[i+2] = Math.floor(data[i+2]/256*levels)*(256/levels);
+                    }
+                    break;
+                case 'vintage':
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i], g = data[i+1], b = data[i+2];
+                        data[i] = Math.min(255, r*0.393 + g*0.769 + b*0.189);
+                        data[i+1] = Math.min(255, r*0.349 + g*0.686 + b*0.168);
+                        data[i+2] = Math.min(255, r*0.272 + g*0.534 + b*0.131);
+                        data[i] = Math.min(255, data[i] * 0.9);
+                        data[i+1] = Math.min(255, data[i+1] * 0.85);
+                        data[i+2] = Math.min(255, data[i+2] * 0.8);
+                    }
+                    break;
+                case 'cinematic':
+                    for (let i = 0; i < data.length; i += 4) {
+                        data[i] = Math.min(255, data[i] * 1.05);
+                        data[i+1] = Math.min(255, data[i+1] * 1.1);
+                        data[i+2] = Math.min(255, data[i+2] * 1.05);
+                        const gray = 0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2];
+                        data[i] = gray + (data[i]-gray)*1.2;
+                        data[i+1] = gray + (data[i+1]-gray)*1.2;
+                        data[i+2] = gray + (data[i+2]-gray)*1.2;
+                    }
+                    break;
+                case 'neon':
+                    for (let i = 0; i < data.length; i += 4) {
+                        data[i] = Math.min(255, data[i] * 1.5);
+                        data[i+1] = Math.min(255, data[i+1] * 0.8);
+                        data[i+2] = Math.min(255, data[i+2] * 1.5);
+                    }
+                    break;
+                case 'noir':
+                    for (let i = 0; i < data.length; i += 4) {
+                        const g = 0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2];
+                        data[i] = data[i+1] = data[i+2] = Math.min(255, g * 1.3);
+                    }
+                    break;
+                case 'hdr':
+                    for (let i = 0; i < data.length; i += 4) {
+                        data[i] = Math.min(255, data[i] * 1.2);
+                        data[i+1] = Math.min(255, data[i+1] * 1.2);
+                        data[i+2] = Math.min(255, data[i+2] * 1.2);
+                        const gray = 0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2];
+                        data[i] = gray + (data[i]-gray)*1.3;
+                        data[i+1] = gray + (data[i+1]-gray)*1.3;
+                        data[i+2] = gray + (data[i+2]-gray)*1.3;
+                    }
+                    break;
+                default:
+                    document.getElementById('filterInfo').textContent = 'Original';
+                    break;
+            }
+
+            if (type !== 'original') {
+                document.getElementById('filterInfo').textContent = filterNames[type] || type;
+                addHistory(filterNames[type] || type, 'photo');
+            }
+
+            imageData.data.set(data);
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        // ===== KERNEL =====
+        function applyKernel(data, w, h, kernel) {
+            const result = new Uint8ClampedArray(data);
+            for (let y=1; y<h-1; y++) {
+                for (let x=1; x<w-1; x++) {
+                    let r=0,g=0,b=0;
+                    for (let ky=-1; ky<=1; ky++) {
+                        for (let kx=-1; kx<=1; kx++) {
+                            const idx = ((y+ky)*w + (x+kx))*4;
+                            const k = kernel[(ky+1)*3 + (kx+1)];
+                            r += data[idx]*k; g += data[idx+1]*k; b += data[idx+2]*k;
+                        }
+                    }
+                    const idx = (y*w + x)*4;
+                    result[idx] = Math.max(0, Math.min(255, r));
+                    result[idx+1] = Math.max(0, Math.min(255, g));
+                    result[idx+2] = Math.max(0, Math.min(255, b));
+                }
+            }
+            return result;
+        }
+
+        // ===== SHOW MODAL =====
+        function showFitur(title, count, tools) {
+            document.getElementById('modalTitle').innerHTML = `<i class="fas fa-sliders-h"></i> ${title}`;
+            document.getElementById('modalCount').textContent = count + '+ Tools';
+            const list = document.getElementById('modalList');
+            list.innerHTML = '';
+            const displayTools = tools.slice(0, 100);
+            displayTools.forEach(tool => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${tool}`;
+                list.appendChild(li);
+            });
+            if (tools.length > 100) {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-plus-circle" style="color:#facc15;"></i> Dan ${tools.length - 100} tools lainnya...`;
+                li.style.color = '#facc15';
+                li.style.gridColumn = '1 / -1';
+                list.appendChild(li);
+            }
+            document.getElementById('modalOverlay').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        // ===== EXPOSE =====
+        window.handleUploadImage = handleUploadImage;
+        window.handleUploadVideo = handleUploadVideo;
+        window.downloadImage = downloadImage;
+        window.exportVideo = exportVideo;
+        window.resetImage = resetImage;
+        window.applyFilter = applyFilter;
+        window.updateSlider = updateSlider;
+        window.addHistory = addHistory;
+        window.showFitur = showFitur;
+        window.closeModal = closeModal;
+        window.generateTools = generateTools;
+    </script>
+</body>
+</html>
