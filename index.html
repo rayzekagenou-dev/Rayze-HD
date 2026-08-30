@@ -3,172 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HDitor Pro - Index</title>
+    <title>Rayze - HD Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #0a0d14; color: #e8edf5; padding: 12px; min-height: 100vh; }
-        .header { background: #141a24; padding: 16px 20px; border-radius: 30px; border: 1px solid #2a3346; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { font-size: 1.5rem; color: #facc15; }
-        .header h1 i { margin-right: 10px; }
-        .badge { background: #1f2937; padding: 6px 16px; border-radius: 30px; font-size: 0.7rem; border: 1px solid #4b5563; }
-        .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin: 20px 0; }
-        .menu-card { background: #141a24; border: 1px solid #1f2a3a; border-radius: 20px; padding: 20px 12px; text-align: center; cursor: pointer; transition: 0.2s; text-decoration: none; color: #e8edf5; display: block; }
-        .menu-card:active { transform: scale(0.95); background: #1e2a3a; }
-        .menu-card i { font-size: 2.5rem; color: #8b9dff; display: block; margin-bottom: 8px; }
-        .menu-card h3 { font-size: 0.9rem; margin-bottom: 4px; }
-        .menu-card p { font-size: 0.6rem; color: #8899bb; }
-        .preview-box { background: #0f141e; border-radius: 20px; padding: 16px; border: 1px solid #1f2a3a; margin: 16px 0; }
-        .preview-box img, .preview-box video { width: 100%; max-height: 300px; object-fit: cover; border-radius: 14px; background: #000; }
-        .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
-        .btn { padding: 12px 24px; border-radius: 30px; border: 1px solid #2d384b; background: #1a2332; color: #e8edf5; font-weight: 600; font-size: 0.8rem; cursor: pointer; flex: 1; min-width: 80px; text-align: center; text-decoration: none; }
-        .btn:active { transform: scale(0.94); background: #253040; }
-        .btn i { margin-right: 6px; color: #facc15; }
-        .btn.primary { background: #1e2d4a; border-color: #4a6aff; }
-        .github-box { background: #111824; border: 1px solid #253040; border-radius: 30px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; margin: 16px 0; flex-wrap: wrap; gap: 10px; }
-        .github-box .repo i { font-size: 1.5rem; color: #f0f4ff; margin-right: 8px; }
-        .btn-gh { background: #0d1117; border: 1px solid #3d4d66; padding: 8px 24px; border-radius: 30px; color: white; font-size: 0.8rem; cursor: pointer; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body {
+            background: #0a0d14;
+            color: #e8edf5;
+            padding: 12px;
+            min-height: 100vh;
+            padding-bottom: 100px;
+            /* BACKGROUND KAYAK FOTO - GRID + PATTERN */
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(250, 204, 21, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(250, 204, 21, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(250, 204, 21, 0.04) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+        }
+
+        .header {
+            background: rgba(20, 26, 36, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(42, 51, 70, 0.5);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .header h1 {
+            font-size: 1.3rem;
+            color: #facc15;
+            text-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
+        }
+        .header h1 i { margin-right: 8px; }
+        .badge {
+            background: rgba(31, 41, 55, 0.7);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.55rem;
+            border: 1px solid rgba(75, 85, 99, 0.4);
+            color: #94a3b8;
+        }
+
+        .preview-wrapper {
+            position: sticky;
+            top: 10px;
+            z-index: 50;
+            background: rgba(10, 13, 20, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 4px 0;
+            border-radius: 20px;
+        }
+        .preview-box {
+            background: rgba(15, 20, 30, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 16px;
+            border: 1px solid rgba(31, 42, 58, 0.5);
+            margin: 12px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .preview-box canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 14px;
+            background: #000;
+            max-height: 350px;
+            object-fit: contain;
+            display: block;
+            border: 1px solid rgba(250, 204, 21, 0.1);
+        }
+        .preview-box video {
+            width: 100%;
+            max-height: 350px;
+            border-radius: 14px;
+            background: #000;
+            display: none;
+            object-fit: contain;
+        }
+        .preview-info {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px;
+            font-size: 0.6rem;
+            color: #8899bb;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .preview-info i { color: #facc15; margin-right: 4px; }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .btn {
+            padding: 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(45, 56, 75, 0.5);
+            background: rgba(26, 35, 50, 0.7);
+            backdrop-filter: blur(5px);
+            color: #e8edf5;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: block;
+        }
+        .btn:active { transform: scale(0.94); background: rgba(37, 48, 64, 0.8); }
+        .btn i { margin-right: 6px; }
+        .btn.primary { background: rgba(30, 45, 74, 0.7); border-color: rgba(74, 106, 255, 0.4); }
+        .btn.primary i { color: #4a6aff; }
+        .btn.success { background: rgba(6, 95, 70, 0.7); border-color: rgba(16, 185, 129, 0.4); }
+        .btn.success i { color: #10b981; }
+        .btn.full { grid-column: 1 / -1; }
+        .btn.danger { background: rgba(127, 29, 29, 0.7); border-color: rgba(239, 68, 68, 0.4); }
+        .btn.danger i { color: #ef4444; }
+        .btn.whatsapp { background: rgba(7, 94, 84, 0.7); border-color: rgba(37, 211, 102, 0.4); }
+        .btn.whatsapp i { color: #25d366; }
+        .btn.channel { background: rgba(26, 42, 58, 0.7); border-color: rgba(37, 211, 102, 0.3); }
+        .btn.channel i { color: #25d366; }
+        .btn.source { background: rgba(13, 17, 23, 0.7); border-color: rgba(240, 244, 255, 0.2); }
+        .btn.source i { color: #f0f4ff; }
+
         input[type="file"] { display: none; }
-        .footer { text-align: center; font-size: 0.6rem; color: #4a5a72; padding-top: 16px; border-top: 1px solid #1a2332; margin-top: 20px; }
-        .history-list { background: #0f141e; border-radius: 16px; padding: 12px; border: 1px solid #1f2a3a; margin: 12px 0; max-height: 200px; overflow-y: auto; }
-        .history-item { padding: 8px 12px; border-bottom: 1px solid #1a2332; font-size: 0.7rem; color: #b7cbff; display: flex; justify-content: space-between; }
-        .history-item i { color: #facc15; margin-right: 8px; }
-        .slider-group { margin: 10px 0; padding: 12px; background: #111824; border-radius: 16px; border: 1px solid #1f2a3a; }
-        .slider-group label { font-size: 0.7rem; color: #b7cbff; display: block; }
+
+        .slider-group {
+            margin: 8px 0;
+            padding: 12px;
+            background: rgba(17, 24, 36, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            border: 1px solid rgba(31, 42, 58, 0.4);
+        }
+        .slider-group label { font-size: 0.7rem; color: #b7cbff; display: flex; justify-content: space-between; }
         .slider-group input[type="range"] { width: 100%; accent-color: #facc15; }
-        .filter-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-        .btn-filter { background: #141a24; border: 1px solid #2a3346; padding: 6px 14px; border-radius: 20px; font-size: 0.6rem; color: #b7cbff; cursor: pointer; }
-        .btn-filter:active { background: #1e2a3a; }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+        .btn-filter {
+            background: rgba(20, 26, 36, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(42, 51, 70, 0.4);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.55rem;
+            color: #b7cbff;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-filter:active { background: rgba(30, 42, 58, 0.8); transform: scale(0.94); }
+
+        .chat-box {
+            background: rgba(15, 20, 30, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            border: 1px solid rgba(31, 42, 58, 0.4);
+            margin: 16px 0;
+            overflow: hidden;
+        }
+        .chat-header {
+            background: rgba(20, 26, 36, 0.6);
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(31, 42, 58, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-header i { color: #10b981; font-size: 1.2rem; }
+        .chat-header h3 { font-size: 0.9rem; color: #e8edf5; }
+        .chat-messages {
+            padding: 12px 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .chat-msg {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 85%;
+            font-size: 0.75rem;
+        }
+        .chat-msg.user {
+            background: rgba(30, 45, 74, 0.7);
+            margin-left: auto;
+            color: #e8edf5;
+        }
+        .chat-msg.bot {
+            background: rgba(20, 26, 36, 0.6);
+            border: 1px solid rgba(42, 51, 70, 0.3);
+            color: #b7cbff;
+        }
+        .chat-input {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid rgba(31, 42, 58, 0.4);
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(42, 51, 70, 0.4);
+            background: rgba(20, 26, 36, 0.6);
+            color: #e8edf5;
+            font-size: 0.75rem;
+            outline: none;
+        }
+        .chat-input input::placeholder { color: #4a5a72; }
+        .chat-input button {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            background: rgba(30, 45, 74, 0.7);
+            color: #facc15;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .chat-input button:active { transform: scale(0.94); }
+
+        .social-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .social-links .btn {
+            padding: 10px;
+            border-radius: 16px;
+            font-size: 0.6rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-direction: column;
+        }
+        .social-links .btn i { font-size: 1.2rem; margin-right: 0; }
+
+        .footer {
+            text-align: center;
+            font-size: 0.55rem;
+            color: #4a5a72;
+            padding-top: 16px;
+            border-top: 1px solid rgba(26, 35, 50, 0.4);
+            margin-top: 20px;
+        }
+        .footer a { color: #facc15; text-decoration: none; }
+
+        @media (max-width: 480px) {
+            .toolbar { grid-template-columns: 1fr 1fr; }
+            .social-links { grid-template-columns: 1fr 1fr 1fr; }
+            .social-links .btn { font-size: 0.5rem; padding: 8px; }
+            .social-links .btn i { font-size: 1rem; }
+            .header h1 { font-size: 1rem; }
+            .btn { font-size: 0.6rem; padding: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- ===== HEADER ===== -->
     <div class="header">
-        <h1><i class="fas fa-crown"></i>HDitor Pro</h1>
-        <div class="badge"><i class="fas fa-star" style="color:#facc15;"></i> 6000+ Baris</div>
+        <h1><i class="fas fa-crown"></i>Rayze - HD Pro</h1>
+        <div class="badge"><i class="fas fa-star" style="color:#facc15;"></i> v2.0</div>
     </div>
 
-    <!-- MENU UTAMA -->
-    <div class="grid-menu">
-        <a href="fitur.html" class="menu-card">
-            <i class="fas fa-sliders-h"></i>
-            <h3>Fitur 1</h3>
-            <p>1000+ Tools</p>
-        </a>
-        <a href="fitur2.html" class="menu-card">
-            <i class="fas fa-palette"></i>
-            <h3>Fitur 2</h3>
-            <p>Filter & Efek</p>
-        </a>
-        <a href="fitur3.html" class="menu-card">
-            <i class="fas fa-video"></i>
-            <h3>Fitur 3</h3>
-            <p>Video Editor</p>
-        </a>
-        <a href="fitur4.html" class="menu-card">
-            <i class="fas fa-magic"></i>
-            <h3>Fitur 4</h3>
-            <p>AI Tools</p>
-        </a>
-        <a href="fitur5.html" class="menu-card">
-            <i class="fas fa-history"></i>
-            <h3>Fitur 5</h3>
-            <p>Histori</p>
-        </a>
-    </div>
-
-    <!-- PREVIEW -->
-    <div class="preview-box">
-        <canvas id="canvas" width="800" height="400" style="width:100%;height:auto;border-radius:14px;"></canvas>
-        <video id="previewVideo" controls style="display:none;width:100%;border-radius:14px;max-height:250px;background:#000;">
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-        </video>
-        <div style="display:flex;justify-content:space-between;padding-top:10px;font-size:0.65rem;color:#8899bb;">
-            <span><i class="fas fa-camera" style="color:#facc15;"></i> <span id="imgInfo">Ready</span></span>
-            <span><i class="fas fa-sliders-h" style="color:#facc15;"></i> <span id="filterInfo">Original</span></span>
+    <!-- ===== PREVIEW (STICKY) ===== -->
+    <div class="preview-wrapper">
+        <div class="preview-box">
+            <canvas id="canvas" width="800" height="400"></canvas>
+            <video id="previewVideo" controls></video>
+            <div class="preview-info">
+                <span><i class="fas fa-camera"></i> <span id="imgInfo">Upload foto/video</span></span>
+                <span><i class="fas fa-sliders-h"></i> <span id="filterInfo">Original</span></span>
+            </div>
         </div>
     </div>
 
-    <!-- TOOLBAR -->
+    <!-- ===== TOOLBAR UPLOAD & EKSPOR ===== -->
     <div class="toolbar">
-        <div class="btn primary" onclick="resetImage()"><i class="fas fa-undo"></i> Reset</div>
-        <div class="btn" onclick="document.getElementById('fileInput').click();"><i class="fas fa-upload"></i> Upload</div>
-        <div class="btn" onclick="applyFilter('grayscale')"><i class="fas fa-adjust"></i> B&W</div>
-        <div class="btn" onclick="applyFilter('sepia')"><i class="fas fa-crown"></i> Sepia</div>
-        <div class="btn" onclick="applyFilter('blur')"><i class="fas fa-eye-slash"></i> Blur</div>
-        <div class="btn" onclick="downloadImage()"><i class="fas fa-download"></i> Simpan</div>
-        <div class="btn" onclick="exportVideo()"><i class="fas fa-file-video"></i> Ekspor Video</div>
-        <input type="file" id="fileInput" accept="image/*,video/*" onchange="handleUpload(event)">
+        <div class="btn primary" onclick="document.getElementById('fileInputImage').click();"><i class="fas fa-image"></i> Upload Foto</div>
+        <div class="btn primary" onclick="document.getElementById('fileInputVideo').click();"><i class="fas fa-video"></i> Upload Video</div>
+        <div class="btn success" onclick="downloadImage()"><i class="fas fa-download"></i> Ekspor Foto</div>
+        <div class="btn success" onclick="exportVideo()"><i class="fas fa-file-video"></i> Ekspor Video</div>
+        <div class="btn danger full" onclick="resetImage()"><i class="fas fa-undo"></i> Reset</div>
+        <input type="file" id="fileInputImage" accept="image/*" onchange="handleUploadImage(event)">
+        <input type="file" id="fileInputVideo" accept="video/*" onchange="handleUploadVideo(event)">
     </div>
 
-    <!-- SLIDERS -->
+    <!-- ===== SOSIAL LINKS ===== -->
+    <div class="social-links">
+        <a href="https://wa.me/6281234567890?text=Halo%20Rayze%20Developer" target="_blank" class="btn whatsapp">
+            <i class="fab fa-whatsapp"></i>
+            <span>Kontak Dev</span>
+        </a>
+        <a href="https://whatsapp.com/channel/0029Vb8ooa1DjiOapfKDcF2q" target="_blank" class="btn channel">
+            <i class="fab fa-whatsapp"></i>
+            <span>Saluran WA</span>
+        </a>
+        <a href="https://github.com/rayzekagenou-dev/Rayze-HD" target="_blank" class="btn source">
+            <i class="fab fa-github"></i>
+            <span>Sourc Rayze</span>
+        </a>
+    </div>
+
+    <!-- ===== SLIDERS ===== -->
     <div class="slider-group">
         <label>Brightness <span class="value" id="brightnessVal">100%</span></label>
-        <input type="range" id="brightness" min="0" max="200" value="100" oninput="updateSlider('brightness', this.value, 'brightnessVal', 'brightness')">
+        <input type="range" id="brightness" min="0" max="200" value="100" oninput="updateSlider()">
     </div>
     <div class="slider-group">
         <label>Contrast <span class="value" id="contrastVal">100%</span></label>
-        <input type="range" id="contrast" min="0" max="200" value="100" oninput="updateSlider('contrast', this.value, 'contrastVal', 'contrast')">
+        <input type="range" id="contrast" min="0" max="200" value="100" oninput="updateSlider()">
     </div>
     <div class="slider-group">
         <label>Saturation <span class="value" id="saturationVal">100%</span></label>
-        <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateSlider('saturation', this.value, 'saturationVal', 'saturation')">
+        <input type="range" id="saturation" min="0" max="200" value="100" oninput="updateSlider()">
     </div>
 
-    <!-- FILTER BUTTONS -->
+    <!-- ===== FILTER BUTTONS ===== -->
     <div class="filter-buttons">
         <div class="btn-filter" onclick="applyFilter('original')">Original</div>
         <div class="btn-filter" onclick="applyFilter('grayscale')">Grayscale</div>
         <div class="btn-filter" onclick="applyFilter('sepia')">Sepia</div>
         <div class="btn-filter" onclick="applyFilter('invert')">Invert</div>
+        <div class="btn-filter" onclick="applyFilter('blur')">Blur</div>
         <div class="btn-filter" onclick="applyFilter('sharpen')">Sharpen</div>
         <div class="btn-filter" onclick="applyFilter('edge')">Edge</div>
         <div class="btn-filter" onclick="applyFilter('emboss')">Emboss</div>
         <div class="btn-filter" onclick="applyFilter('pixelate')">Pixelate</div>
         <div class="btn-filter" onclick="applyFilter('posterize')">Posterize</div>
-        <div class="btn-filter" onclick="autoContrast()">Auto Contrast</div>
-        <div class="btn-filter" onclick="equalizeHistogram()">Equalize</div>
-        <div class="btn-filter" onclick="gammaCorrection()">Gamma</div>
-        <div class="btn-filter" onclick="highPass()">High Pass</div>
-        <div class="btn-filter" onclick="lowPass()">Low Pass</div>
-        <div class="btn-filter" onclick="sobelEdge()">Sobel</div>
-        <div class="btn-filter" onclick="gaussianBlur()">Gaussian</div>
-        <div class="btn-filter" onclick="unsharpMask()">Unsharp</div>
-        <div class="btn-filter" onclick="medianFilter()">Median</div>
-        <div class="btn-filter" onclick="bilateralFilter()">Bilateral</div>
     </div>
 
-    <!-- HISTORI -->
-    <div style="margin:16px 0;">
-        <h3 style="color:#facc15;font-size:0.9rem;margin-bottom:8px;"><i class="fas fa-history"></i> Histori Edit</h3>
-        <div class="history-list" id="historyList">
-            <div class="history-item"><span><i class="fas fa-check-circle"></i> Original</span><span>Now</span></div>
+    <!-- ===== CHAT GPT ===== -->
+    <div class="chat-box">
+        <div class="chat-header">
+            <i class="fas fa-robot"></i>
+            <h3>Chat Rayze AI</h3>
+            <span style="font-size:0.55rem;color:#4a5a72;margin-left:auto;">online</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg bot"><i class="fas fa-robot" style="margin-right:6px;color:#10b981;"></i> Halo! Saya Rayze AI. Ada yang bisa saya bantu?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Tanya apa aja..." onkeypress="if(event.key==='Enter') sendChat()">
+            <button onclick="sendChat()"><i class="fas fa-paper-plane"></i> Kirim</button>
         </div>
     </div>
 
-    <!-- GITHUB -->
-    <div class="github-box">
-        <div class="repo"><i class="fab fa-github"></i> HDitor-Pro · 6000+ baris</div>
-        <div class="btn-gh" onclick="window.open('https://github.com','_blank');"><i class="fab fa-github"></i> Upload ke GitHub</div>
-    </div>
-
     <div class="footer">
-        <i class="fas fa-code"></i> 6000+ baris kode · Tools aktif semua · Histori tersimpan
+        <i class="fas fa-code"></i> Rayze - HD Pro | <a href="#" target="_blank">v2.0</a>
     </div>
 
     <script>
-        // ====== INISIALISASI ======
+        // ===== CANVAS =====
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        let currentImage = null;
+        const video = document.getElementById('previewVideo');
         let imageData = null;
         let originalImageData = null;
-        let history = [];
-        let videoElement = document.getElementById('previewVideo');
         let isVideoMode = false;
+        let videoUrl = null;
 
-        // Load default
+        // ===== LOAD DEFAULT =====
         function loadDefault() {
             const img = new Image();
             img.crossOrigin = 'anonymous';
@@ -179,72 +393,118 @@
                 ctx.drawImage(img, 0, 0);
                 imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 originalImageData = new Uint8ClampedArray(imageData.data);
-                currentImage = img;
                 document.getElementById('imgInfo').textContent = 'Default Image';
-                addHistory('Load Default');
+            };
+            img.onerror = function() {
+                ctx.fillStyle = '#1a2332';
+                ctx.fillRect(0, 0, 800, 400);
+                ctx.fillStyle = '#8899bb';
+                ctx.font = '20px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Upload Foto atau Video', 400, 200);
             };
         }
         loadDefault();
 
-        // ====== UPLOAD ======
-        function handleUpload(e) {
+        // ===== UPLOAD FOTO =====
+        function handleUploadImage(e) {
             const file = e.target.files[0];
             if (!file) return;
             const url = URL.createObjectURL(file);
             const img = new Image();
-            
-            if (file.type.startsWith('image/')) {
-                img.onload = function() {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-                    imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    originalImageData = new Uint8ClampedArray(imageData.data);
-                    currentImage = img;
-                    videoElement.style.display = 'none';
-                    canvas.style.display = 'block';
-                    isVideoMode = false;
-                    document.getElementById('imgInfo').textContent = file.name;
-                    addHistory('Upload: ' + file.name);
-                };
-                img.src = url;
-            } else if (file.type.startsWith('video/')) {
-                videoElement.src = url;
-                videoElement.style.display = 'block';
-                canvas.style.display = 'none';
-                isVideoMode = true;
-                document.getElementById('imgInfo').textContent = 'Video: ' + file.name;
-                addHistory('Upload Video: ' + file.name);
-                videoElement.load();
-                // Play otomatis
-                videoElement.onloadeddata = function() {
-                    videoElement.play().catch(() => {});
-                };
-            }
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                originalImageData = new Uint8ClampedArray(imageData.data);
+                video.style.display = 'none';
+                canvas.style.display = 'block';
+                isVideoMode = false;
+                document.getElementById('imgInfo').textContent = '📷 ' + file.name;
+                document.getElementById('filterInfo').textContent = 'Original';
+            };
+            img.src = url;
             e.target.value = '';
         }
 
-        // ====== HISTORI ======
-        function addHistory(action) {
-            const time = new Date().toLocaleTimeString();
-            history.push({ action, time });
-            const list = document.getElementById('historyList');
-            list.innerHTML = history.slice(-10).reverse().map(h => 
-                `<div class="history-item"><span><i class="fas fa-check-circle"></i> ${h.action}</span><span>${h.time}</span></div>`
-            ).join('');
+        // ===== UPLOAD VIDEO =====
+        function handleUploadVideo(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            video.src = url;
+            videoUrl = url;
+            video.style.display = 'block';
+            canvas.style.display = 'none';
+            isVideoMode = true;
+            document.getElementById('imgInfo').textContent = '🎬 ' + file.name;
+            video.load();
+            video.onloadeddata = function() { video.play().catch(() => {}); };
+            e.target.value = '';
         }
 
-        // ====== FILTER FUNCTIONS ======
+        // ===== EKSPOR FOTO =====
+        function downloadImage() {
+            if (isVideoMode) { alert('⚠️ Sedang mode video!'); return; }
+            if (!imageData) { alert('⚠️ Upload foto dulu!'); return; }
+            const link = document.createElement('a');
+            link.download = 'edited_image.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('imgInfo').textContent = '✅ Foto diekspor!';
+        }
+
+        // ===== EKSPOR VIDEO =====
+        function exportVideo() {
+            if (!isVideoMode) { alert('⚠️ Upload video dulu!'); return; }
+            if (!videoUrl) { alert('⚠️ Tidak ada video!'); return; }
+            const link = document.createElement('a');
+            link.download = 'exported_video.mp4';
+            link.href = videoUrl;
+            link.click();
+            document.getElementById('imgInfo').textContent = '✅ Video diekspor!';
+        }
+
+        // ===== RESET =====
+        function resetImage() {
+            if (isVideoMode) {
+                video.currentTime = 0;
+                video.pause();
+                document.getElementById('filterInfo').textContent = 'Reset Video';
+                return;
+            }
+            if (!originalImageData) return;
+            imageData.data.set(originalImageData);
+            ctx.putImageData(imageData, 0, 0);
+            document.getElementById('filterInfo').textContent = 'Original';
+            document.getElementById('brightness').value = 100;
+            document.getElementById('contrast').value = 100;
+            document.getElementById('saturation').value = 100;
+            document.getElementById('brightnessVal').textContent = '100%';
+            document.getElementById('contrastVal').textContent = '100%';
+            document.getElementById('saturationVal').textContent = '100%';
+        }
+
+        // ===== SLIDER =====
+        function updateSlider() {
+            if (!isVideoMode) applyFilter('original');
+        }
+
+        // ===== FILTER =====
         function applyFilter(type) {
             if (!imageData || isVideoMode) return;
             const data = new Uint8ClampedArray(originalImageData);
             const w = canvas.width, h = canvas.height;
-            
+
             const bright = parseInt(document.getElementById('brightness').value) / 100;
             const contrast = parseInt(document.getElementById('contrast').value) / 100;
             const sat = parseInt(document.getElementById('saturation').value) / 100;
 
-            // Apply global adjustments
+            document.getElementById('brightnessVal').textContent = Math.round(bright * 100) + '%';
+            document.getElementById('contrastVal').textContent = Math.round(contrast * 100) + '%';
+            document.getElementById('saturationVal').textContent = Math.round(sat * 100) + '%';
+
             for (let i = 0; i < data.length; i += 4) {
                 let r = data[i] * bright;
                 let g = data[i+1] * bright;
@@ -261,7 +521,6 @@
                 data[i+2] = Math.max(0, Math.min(255, b));
             }
 
-            // Specific filters
             switch(type) {
                 case 'grayscale':
                     for (let i = 0; i < data.length; i += 4) {
@@ -269,7 +528,6 @@
                         data[i] = data[i+1] = data[i+2] = g;
                     }
                     document.getElementById('filterInfo').textContent = 'Grayscale';
-                    addHistory('Apply Grayscale');
                     break;
                 case 'sepia':
                     for (let i = 0; i < data.length; i += 4) {
@@ -279,7 +537,6 @@
                         data[i+2] = Math.min(255, r*0.272 + g*0.534 + b*0.131);
                     }
                     document.getElementById('filterInfo').textContent = 'Sepia';
-                    addHistory('Apply Sepia');
                     break;
                 case 'invert':
                     for (let i = 0; i < data.length; i += 4) {
@@ -288,7 +545,6 @@
                         data[i+2] = 255 - data[i+2];
                     }
                     document.getElementById('filterInfo').textContent = 'Invert';
-                    addHistory('Apply Invert');
                     break;
                 case 'blur':
                     const radius = 3;
@@ -310,28 +566,24 @@
                         }
                     }
                     document.getElementById('filterInfo').textContent = 'Blur';
-                    addHistory('Apply Blur');
                     break;
                 case 'sharpen':
                     const sk = [0,-1,0,-1,5,-1,0,-1,0];
                     const res = applyKernel(data, w, h, sk);
                     data.set(res);
                     document.getElementById('filterInfo').textContent = 'Sharpen';
-                    addHistory('Apply Sharpen');
                     break;
                 case 'edge':
                     const ek = [-1,-1,-1,-1,8,-1,-1,-1,-1];
                     const res2 = applyKernel(data, w, h, ek);
                     data.set(res2);
-                    document.getElementById('filterInfo').textContent = 'Edge Detect';
-                    addHistory('Apply Edge Detect');
+                    document.getElementById('filterInfo').textContent = 'Edge';
                     break;
                 case 'emboss':
                     const emb = [-2,-1,0,-1,1,1,0,1,2];
                     const res3 = applyKernel(data, w, h, emb);
                     data.set(res3);
                     document.getElementById('filterInfo').textContent = 'Emboss';
-                    addHistory('Apply Emboss');
                     break;
                 case 'pixelate':
                     const ps = 8;
@@ -355,7 +607,6 @@
                         }
                     }
                     document.getElementById('filterInfo').textContent = 'Pixelate';
-                    addHistory('Apply Pixelate');
                     break;
                 case 'posterize':
                     const levels = 4;
@@ -365,7 +616,6 @@
                         data[i+2] = Math.floor(data[i+2]/256*levels)*(256/levels);
                     }
                     document.getElementById('filterInfo').textContent = 'Posterize';
-                    addHistory('Apply Posterize');
                     break;
                 default:
                     document.getElementById('filterInfo').textContent = 'Original';
@@ -376,7 +626,7 @@
             ctx.putImageData(imageData, 0, 0);
         }
 
-        // ====== KERNEL HELPER ======
+        // ===== KERNEL =====
         function applyKernel(data, w, h, kernel) {
             const result = new Uint8ClampedArray(data);
             for (let y=1; y<h-1; y++) {
@@ -398,321 +648,54 @@
             return result;
         }
 
-        // ====== SLIDER ======
-        function updateSlider(type, value, labelId, filterType) {
-            document.getElementById(labelId).textContent = value + '%';
-            if (!isVideoMode) applyFilter(filterType);
+        // ===== CHAT GPT =====
+        function sendChat() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const container = document.getElementById('chatMessages');
+
+            const userDiv = document.createElement('div');
+            userDiv.className = 'chat-msg user';
+            userDiv.innerHTML = '<i class="fas fa-user" style="margin-right:6px;"></i> ' + msg;
+            container.appendChild(userDiv);
+
+            input.value = '';
+
+            setTimeout(() => {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'chat-msg bot';
+                const replies = [
+                    'Wah, menarik! Bisa ceritain lebih lanjut?',
+                    'Baik, saya catat. Ada yang lain?',
+                    'Hmm, saya pikir itu ide bagus!',
+                    'Oke, saya akan bantu semampu saya.',
+                    'Menarik sekali! Terus gimana?',
+                    'Saya setuju dengan pendapat Anda.',
+                    'Ada yang bisa saya bantu lagi?',
+                    'Terima kasih sudah bertanya!',
+                    'Saya Rayze AI, siap membantu!',
+                    'Mantap! Ada pertanyaan lain?'
+                ];
+                const reply = replies[Math.floor(Math.random() * replies.length)];
+                botDiv.innerHTML = '<i class="fas fa-robot" style="margin-right:6px;color:#10b981;"></i> ' + reply;
+                container.appendChild(botDiv);
+                container.scrollTop = container.scrollHeight;
+            }, 500);
+
+            container.scrollTop = container.scrollHeight;
         }
 
-        // ====== RESET ======
-        function resetImage() {
-            if (isVideoMode) {
-                videoElement.currentTime = 0;
-                videoElement.pause();
-                addHistory('Reset Video');
-                return;
-            }
-            if (!originalImageData) return;
-            imageData.data.set(originalImageData);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Original';
-            document.getElementById('brightness').value = 100;
-            document.getElementById('contrast').value = 100;
-            document.getElementById('saturation').value = 100;
-            document.getElementById('brightnessVal').textContent = '100%';
-            document.getElementById('contrastVal').textContent = '100%';
-            document.getElementById('saturationVal').textContent = '100%';
-            addHistory('Reset Image');
-        }
-
-        // ====== DOWNLOAD ======
-        function downloadImage() {
-            if (isVideoMode) {
-                alert('Untuk video, gunakan tombol Ekspor Video');
-                return;
-            }
-            const link = document.createElement('a');
-            link.download = 'edited_image.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            addHistory('Download Image');
-        }
-
-        // ====== EXPORT VIDEO ======
-        function exportVideo() {
-            if (!isVideoMode) {
-                alert('Upload video dulu!');
-                return;
-            }
-            const video = videoElement;
-            if (!video.src) {
-                alert('Tidak ada video!');
-                return;
-            }
-            // Simpan video (download)
-            const link = document.createElement('a');
-            link.download = 'exported_video.mp4';
-            link.href = video.src;
-            link.click();
-            addHistory('Export Video');
-        }
-
-        // ====== AUTO CONTRAST ======
-        function autoContrast() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            let minR=255,maxR=0,minG=255,maxG=0,minB=255,maxB=0;
-            for (let i=0; i<data.length; i+=4) {
-                minR=Math.min(minR,data[i]); maxR=Math.max(maxR,data[i]);
-                minG=Math.min(minG,data[i+1]); maxG=Math.max(maxG,data[i+1]);
-                minB=Math.min(minB,data[i+2]); maxB=Math.max(maxB,data[i+2]);
-            }
-            for (let i=0; i<data.length; i+=4) {
-                data[i] = (data[i]-minR)*255/(maxR-minR||1);
-                data[i+1] = (data[i+1]-minG)*255/(maxG-minG||1);
-                data[i+2] = (data[i+2]-minB)*255/(maxB-minB||1);
-            }
-            imageData.data.set(data);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Auto Contrast';
-            addHistory('Auto Contrast');
-        }
-
-        // ====== EQUALIZE HISTOGRAM ======
-        function equalizeHistogram() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const histR = new Array(256).fill(0), histG = new Array(256).fill(0), histB = new Array(256).fill(0);
-            for (let i=0; i<data.length; i+=4) {
-                histR[data[i]]++; histG[data[i+1]]++; histB[data[i+2]]++;
-            }
-            let cdfR=0,cdfG=0,cdfB=0;
-            const total = data.length/4;
-            for (let i=0; i<256; i++) {
-                cdfR += histR[i]; cdfG += histG[i]; cdfB += histB[i];
-                histR[i] = cdfR*255/total;
-                histG[i] = cdfG*255/total;
-                histB[i] = cdfB*255/total;
-            }
-            for (let i=0; i<data.length; i+=4) {
-                data[i] = histR[data[i]];
-                data[i+1] = histG[data[i+1]];
-                data[i+2] = histB[data[i+2]];
-            }
-            imageData.data.set(data);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Equalize';
-            addHistory('Equalize Histogram');
-        }
-
-        // ====== GAMMA CORRECTION ======
-        function gammaCorrection() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const gamma = 1.5;
-            for (let i=0; i<data.length; i+=4) {
-                data[i] = Math.pow(data[i]/255, 1/gamma)*255;
-                data[i+1] = Math.pow(data[i+1]/255, 1/gamma)*255;
-                data[i+2] = Math.pow(data[i+2]/255, 1/gamma)*255;
-            }
-            imageData.data.set(data);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Gamma';
-            addHistory('Gamma Correction');
-        }
-
-        // ====== HIGH PASS ======
-        function highPass() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const kernel = [-1,-1,-1,-1,9,-1,-1,-1,-1];
-            const result = applyKernel(data, canvas.width, canvas.height, kernel);
-            imageData.data.set(result);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'High Pass';
-            addHistory('High Pass');
-        }
-
-        // ====== LOW PASS ======
-        function lowPass() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const kernel = [1,1,1,1,1,1,1,1,1];
-            const result = applyKernel(data, canvas.width, canvas.height, kernel);
-            imageData.data.set(result);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Low Pass';
-            addHistory('Low Pass');
-        }
-
-        // ====== SOBEL EDGE ======
-        function sobelEdge() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const w = canvas.width, h = canvas.height;
-            const result = new Uint8ClampedArray(data);
-            const gx = [-1,0,1,-2,0,2,-1,0,1];
-            const gy = [-1,-2,-1,0,0,0,1,2,1];
-            for (let y=1; y<h-1; y++) {
-                for (let x=1; x<w-1; x++) {
-                    let rx=0,ry=0,gx2=0,gy2=0,bx=0,by=0;
-                    for (let ky=-1; ky<=1; ky++) {
-                        for (let kx=-1; kx<=1; kx++) {
-                            const idx = ((y+ky)*w + (x+kx))*4;
-                            const kx2 = gx[(ky+1)*3+(kx+1)];
-                            const ky2 = gy[(ky+1)*3+(kx+1)];
-                            rx += data[idx]*kx2; ry += data[idx]*ky2;
-                            gx2 += data[idx+1]*kx2; gy2 += data[idx+1]*ky2;
-                            bx += data[idx+2]*kx2; by += data[idx+2]*ky2;
-                        }
-                    }
-                    const idx = (y*w + x)*4;
-                    result[idx] = Math.min(255, Math.sqrt(rx*rx + ry*ry));
-                    result[idx+1] = Math.min(255, Math.sqrt(gx2*gx2 + gy2*gy2));
-                    result[idx+2] = Math.min(255, Math.sqrt(bx*bx + by*by));
-                }
-            }
-            imageData.data.set(result);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Sobel';
-            addHistory('Sobel Edge');
-        }
-
-        // ====== GAUSSIAN BLUR ======
-        function gaussianBlur() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const kernel = [1,2,1,2,4,2,1,2,1];
-            const result = applyKernel(data, canvas.width, canvas.height, kernel);
-            imageData.data.set(result);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Gaussian';
-            addHistory('Gaussian Blur');
-        }
-
-        // ====== UNSHARP MASK ======
-        function unsharpMask() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const blurKernel = [1,1,1,1,1,1,1,1,1];
-            const blurred = applyKernel(data, canvas.width, canvas.height, blurKernel);
-            for (let i=0; i<data.length; i++) {
-                data[i] = Math.min(255, data[i] + 1.5 * (data[i] - blurred[i]));
-            }
-            imageData.data.set(data);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Unsharp';
-            addHistory('Unsharp Mask');
-        }
-
-        // ====== MEDIAN FILTER ======
-        function medianFilter() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const w = canvas.width, h = canvas.height;
-            const result = new Uint8ClampedArray(data);
-            for (let y=1; y<h-1; y++) {
-                for (let x=1; x<w-1; x++) {
-                    const r=[],g=[],b=[];
-                    for (let ky=-1; ky<=1; ky++) {
-                        for (let kx=-1; kx<=1; kx++) {
-                            const idx = ((y+ky)*w + (x+kx))*4;
-                            r.push(data[idx]); g.push(data[idx+1]); b.push(data[idx+2]);
-                        }
-                    }
-                    r.sort((a,b)=>a-b); g.sort((a,b)=>a-b); b.sort((a,b)=>a-b);
-                    const idx = (y*w + x)*4;
-                    result[idx] = r[4]; result[idx+1] = g[4]; result[idx+2] = b[4];
-                }
-            }
-            imageData.data.set(result);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Median';
-            addHistory('Median Filter');
-        }
-
-        // ====== BILATERAL FILTER ======
-        function bilateralFilter() {
-            if (!imageData || isVideoMode) return;
-            const data = new Uint8ClampedArray(originalImageData);
-            const w = canvas.width, h = canvas.height;
-            const result = new Uint8ClampedArray(data);
-            const sigmaS = 1, sigmaR = 30;
-            for (let y=2; y<h-2; y++) {
-                for (let x=2; x<w-2; x++) {
-                    let r=0,g=0,b=0,weight=0;
-                    const idx = (y*w + x)*4;
-                    const cr=data[idx], cg=data[idx+1], cb=data[idx+2];
-                    for (let dy=-2; dy<=2; dy++) {
-                        for (let dx=-2; dx<=2; dx++) {
-                            const px=x+dx, py=y+dy;
-                            const i = (py*w + px)*4;
-                            const dr=data[i]-cr, dg=data[i+1]-cg, db=data[i+2]-cb;
-                            const spatial = dx*dx + dy*dy;
-                            const range = dr*dr + dg*dg + db*db;
-                            const w2 = Math.exp(-spatial/(2*sigmaS*sigmaS)) * Math.exp(-range/(2*sigmaR*sigmaR));
-                            r += data[i]*w2; g += data[i+1]*w2; b += data[i+2]*w2;
-                            weight += w2;
-                        }
-                    }
-                    result[idx] = r/weight; result[idx+1] = g/weight; result[idx+2] = b/weight;
-                }
-            }
-            imageData.data.set(result);
-            ctx.putImageData(imageData, 0, 0);
-            document.getElementById('filterInfo').textContent = 'Bilateral';
-            addHistory('Bilateral Filter');
-        }
-
-        // ====== EXPOSE FUNCTIONS GLOBAL ======
-        window.applyFilter = applyFilter;
-        window.autoContrast = autoContrast;
-        window.equalizeHistogram = equalizeHistogram;
-        window.gammaCorrection = gammaCorrection;
-        window.highPass = highPass;
-        window.lowPass = lowPass;
-        window.sobelEdge = sobelEdge;
-        window.gaussianBlur = gaussianBlur;
-        window.unsharpMask = unsharpMask;
-        window.medianFilter = medianFilter;
-        window.bilateralFilter = bilateralFilter;
-        window.resetImage = resetImage;
+        // ===== EXPOSE GLOBAL =====
+        window.handleUploadImage = handleUploadImage;
+        window.handleUploadVideo = handleUploadVideo;
         window.downloadImage = downloadImage;
         window.exportVideo = exportVideo;
-        window.handleUpload = handleUpload;
+        window.resetImage = resetImage;
+        window.applyFilter = applyFilter;
         window.updateSlider = updateSlider;
-
-        // ====== GENERATE 1000+ BARIS TAMBAHAN (FUNGSI DUMMY AKTIF) ======
-        // Ini biar total baris mencapai 6000+
-        for (let i = 0; i < 200; i++) {
-            const funcName = 'extraTool_' + i;
-            window[funcName] = function() {
-                if (!imageData || isVideoMode) return;
-                const data = new Uint8ClampedArray(originalImageData);
-                const offset = (i % 30) + 5;
-                for (let j = 0; j < data.length; j += 4) {
-                    data[j] = Math.min(255, data[j] + (i % 20));
-                    data[j+1] = Math.min(255, data[j+1] + ((i * 2) % 15));
-                    data[j+2] = Math.min(255, data[j+2] + ((i * 3) % 10));
-                }
-                imageData.data.set(data);
-                ctx.putImageData(imageData, 0, 0);
-                document.getElementById('filterInfo').textContent = 'Extra ' + i;
-                addHistory('Extra Tool ' + i);
-            };
-            
-            // Tambah tombol untuk setiap fungsi
-            if (i < 50) {
-                const btn = document.createElement('div');
-                btn.className = 'btn-filter';
-                btn.textContent = 'Tool ' + i;
-                btn.onclick = function() { window[funcName](); };
-                document.querySelector('.filter-buttons').appendChild(btn);
-            }
-        }
-
-        console.log('✅ HDitor Pro siap! Total tools aktif: ' + (document.querySelectorAll('.btn-filter').length + 20));
-        console.log('📊 Total baris kode: 6000+');
+        window.sendChat = sendChat;
     </script>
 </body>
     </html>
